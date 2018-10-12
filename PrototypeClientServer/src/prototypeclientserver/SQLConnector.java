@@ -7,6 +7,7 @@ package prototypeclientserver;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.TimeZone;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -191,6 +192,9 @@ public class SQLConnector {
     
     public void connectToDatabase() throws SQLException
     {
+        TimeZone timeZone = TimeZone.getTimeZone("AEST");
+        TimeZone.setDefault(timeZone);
+        
         myConn = DriverManager.getConnection(getconn + dbname, user, pass);
         myStmt = myConn.createStatement();
     }

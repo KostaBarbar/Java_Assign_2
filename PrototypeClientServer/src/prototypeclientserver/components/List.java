@@ -56,7 +56,7 @@ public class List extends javax.swing.JPanel {
      * Adds ListSelectionListener to the waiting list
      * @param evt ListSelectionListener to add
      */
-    public void addListSelectionEventListenerToList(ListSelectionListener evt) {
+    public void addListSelectionEventListener(ListSelectionListener evt) {
         list.addListSelectionListener(evt);    
     }
     
