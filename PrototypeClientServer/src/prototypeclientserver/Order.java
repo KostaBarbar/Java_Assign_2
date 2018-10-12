@@ -52,12 +52,25 @@ public class Order {
         return items[1];
     }
     
+    public int getID() {
+        return orderId;
+    }
+    
+    
     public void setServed(boolean value) {
         served = value;
     }
     
     public void setBilled(boolean value) {
         billed = value;
+    }
+    
+    public boolean isBilled() {
+        return billed;
+    }
+    
+    public boolean isServed() {
+        return served;
     }
     
     @Override
@@ -89,19 +102,4 @@ public class Order {
     {
         return tableNumber;
     }
-    
-    public int getID()
-    {
-        return orderId;
-    }
-
-    public boolean isServed() {
-        return served;
-    }
-
-    public boolean isBilled() {
-        return billed;
-    }
-    
-    
 }
