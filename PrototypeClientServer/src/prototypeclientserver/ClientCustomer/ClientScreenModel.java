@@ -19,7 +19,7 @@ import prototypeclientserver.SQLConnector;
  * @author stephenfleming
  */
 public class ClientScreenModel {
-    private final String PATH = System.getProperty("user.dir") + "/src/restaurantorderprocessor/items.csv";
+    private final String PATH = System.getProperty("user.dir") + "/src/prototypeclientserver/items.csv";
     
     private CSVReader csvReader;
     
@@ -31,11 +31,17 @@ public class ClientScreenModel {
     
     public ClientScreenModel() throws SQLException {
         csvReader = new CSVReader();
+    }
+    
+    public void prepareSQL() throws SQLException
+    {
+        
         sql.connectToDatabase();
         ArrayList<MenuItem> temp = sql.getMenuItems();
         food = csvReader.GetFood(temp);
-        beverage = csvReader.GetBeverage(temp);
+        beverage = csvReader.GetBeverage(temp); 
     }
+    
     
     public SQLConnector getSQL()
     {
@@ -55,6 +61,16 @@ public class ClientScreenModel {
      */
     public ArrayList<MenuItem> getFood() {
         return food;
+    }
+    
+    public ArrayList<MenuItem> getFoodFromCSV()
+    {
+        return csvReader.GetFood(PATH);
+    }
+    
+    public ArrayList<MenuItem> getBeverageFromCSV()
+    {
+        return csvReader.GetBeverage(PATH);
     }
     /**
      * Getter for beverages in model

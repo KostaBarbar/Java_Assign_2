@@ -74,7 +74,7 @@ public class SQLConnector {
     private void createTables() throws SQLException
     {
         createTableMenuItems();
-        createTableOrders();
+        createTableOrdersWaiting();
     }
     
     private void populateTables(ArrayList<MenuItem> food, ArrayList<MenuItem> bev) throws SQLException
@@ -82,7 +82,7 @@ public class SQLConnector {
         populateTableMenuItems(food, bev);
     }
     
-    private void createTableOrders() throws SQLException
+    private void createTableOrdersWaiting() throws SQLException
     {
         String sqlQuery = 
                 "CREATE TABLE orders " +
@@ -92,7 +92,8 @@ public class SQLConnector {
                 "foodname VARCHAR(100) NOT NULL, " + 
                 "beveragename VARCHAR(100) NOT NULL, " + 
                 "served BOOLEAN NOT NULL, " + 
-                "billed BOOLEAN NOT NULL)";
+                "billed BOOLEAN NOT NULL, " + 
+                "time DATETIME DEFAULT CURRENT_TIMESTAMP)";
         myStmt.executeUpdate(sqlQuery);
     }
     
@@ -183,7 +184,7 @@ public class SQLConnector {
                 "'" + o.getFood() + "', " +
                 "'" + o.getBeverage() + "', " + 
                 o.isServed() + ", " +
-                o.isBilled() + ")";
+                o.isBilled() + ", DEFAULT)";
         System.out.println(sqlQuery);
         myStmt.executeUpdate(sqlQuery);
     }

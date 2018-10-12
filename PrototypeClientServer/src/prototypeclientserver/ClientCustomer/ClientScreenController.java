@@ -46,7 +46,7 @@ public class ClientScreenController {
         {
             if (!model.getSQL().testDatabaseExists())
             {
-                model.getSQL().createAndPopulateDatabase(model.getFood(), model.getBeverage());
+                model.getSQL().createAndPopulateDatabase(model.getFoodFromCSV(), model.getBeverageFromCSV());
             }
             else
             {
@@ -54,7 +54,7 @@ public class ClientScreenController {
                 System.out.println("DB Already Exists.");
             }
         }
-        
+        model.prepareSQL();
     }
     
     private void setViewEventListeners() {
