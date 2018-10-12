@@ -5,9 +5,18 @@
  */
 package prototypeclientserver.ClientReceptionist;
 
+import prototypeclientserver.Order;
+
 /**
  * The model for the Receptionist screen contains a list of orders that have been served.
  */
 public class ReceptionistScreenModel {
+    public ReceptionistScreenModel() {
+        
+    }
     
+    public void billOrder(Order o) {
+        o.setBilled(true);
+        //sql here
+    }
 }
