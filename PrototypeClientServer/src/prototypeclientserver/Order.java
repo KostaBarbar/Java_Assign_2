@@ -29,11 +29,14 @@ public class Order {
         billed = false;
         
         items = new MenuItem[menuItems.size()];
-        items = menuItems.toArray(items);
+        for (int i = 0; i < menuItems.size(); i++) {
+         items[i] = menuItems.get(i);
+        }
     }
     
     public String itemsToString() {
         String itemString = "";
+        
         for (int i = 0; i < items.length; i++) {
             itemString += items[i].getItemName();
             
@@ -73,15 +76,6 @@ public class Order {
         return served;
     }
     
-    @Override
-    public String toString() {
-        String orderString = String.format("Order: %d | Table: %d | ", orderId, tableNumber);
-        
-        orderString += itemsToString();
-        
-        return orderString;
-    }
-    
     public String getCustomerName()
     {
         return custName;
@@ -101,5 +95,14 @@ public class Order {
     public int getTable()
     {
         return tableNumber;
+    }
+    
+    @Override
+    public String toString() {
+        String orderString = String.format("Order: %d | Table: %d | ", orderId, tableNumber);
+        
+        orderString += itemsToString();
+        
+        return orderString;
     }
 }

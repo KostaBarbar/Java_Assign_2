@@ -6,10 +6,12 @@
 package prototypeclientserver.ClientCustomer;
 
 import javax.swing.*;
+import java.awt.BorderLayout;
+import java.awt.Panel;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusListener;
-import prototypeclientserver.MenuItem;
 import prototypeclientserver.Order;
+import prototypeclientserver.components.NutritionalInfoTable;
 
 /**
  * 
@@ -48,7 +50,16 @@ public class ClientScreenView extends javax.swing.JFrame {
     }
     
     public void addContentToOutputPanel(JPanel content) {
-        panelContent.add(content);
+        outputPanelEmpty.removeAll();
+        
+        Panel p2 = new Panel();
+        p2.setLayout(new BorderLayout());
+        p2.add(content);
+        
+        outputPanelEmpty.add(p2);
+        
+        outputPanelEmpty.updateUI();
+        pack();
     }
     
     public CustomerDetails getCustomerDetails() {
@@ -59,7 +70,7 @@ public class ClientScreenView extends javax.swing.JFrame {
         return menuItems;
     }
     
-        /**
+     /**
      * Displays a pop-up message to the JFrame
      * @param msg String message to display
      */
@@ -75,8 +86,13 @@ public class ClientScreenView extends javax.swing.JFrame {
      * Then adds the new specified row
      * @param ord Order to add
      */
-    public void updateOutputOrderTable(Order ord)
+    public void updateOutputOrderTable(Order order)
     {
+        NutritionalInfoTable table = new NutritionalInfoTable(order.getFood(), order.getBeverage(), order.getFood());
+        
+        outputPanelEmpty.add(table);
+        
+        this.pack();
         /*
         //Code sourced from stackoverflow to clear table values
         //Source : https://stackoverflow.com/questions/6232355/deleting-all-the-rows-in-a-jtable
@@ -109,8 +125,6 @@ public class ClientScreenView extends javax.swing.JFrame {
         buttonDisplayOrder = new javax.swing.JButton();
         panelContent = new javax.swing.JPanel();
         outputPanelEmpty = new javax.swing.JPanel();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
         customerDetails = new prototypeclientserver.ClientCustomer.CustomerDetails();
         menuItems = new prototypeclientserver.ClientCustomer.MenuItems();
         buttonReset = new javax.swing.JButton();
@@ -132,40 +146,8 @@ public class ClientScreenView extends javax.swing.JFrame {
 
         panelContent.setLayout(new java.awt.CardLayout());
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        jScrollPane3.setViewportView(jTable1);
-
-        javax.swing.GroupLayout outputPanelEmptyLayout = new javax.swing.GroupLayout(outputPanelEmpty);
-        outputPanelEmpty.setLayout(outputPanelEmptyLayout);
-        outputPanelEmptyLayout.setHorizontalGroup(
-            outputPanelEmptyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 591, Short.MAX_VALUE)
-            .addGroup(outputPanelEmptyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(outputPanelEmptyLayout.createSequentialGroup()
-                    .addGap(69, 69, 69)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 453, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(69, Short.MAX_VALUE)))
-        );
-        outputPanelEmptyLayout.setVerticalGroup(
-            outputPanelEmptyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 134, Short.MAX_VALUE)
-            .addGroup(outputPanelEmptyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(outputPanelEmptyLayout.createSequentialGroup()
-                    .addGap(20, 20, 20)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(21, Short.MAX_VALUE)))
-        );
-
+        outputPanelEmpty.setPreferredSize(new java.awt.Dimension(500, 300));
+        outputPanelEmpty.setLayout(new java.awt.BorderLayout());
         panelContent.add(outputPanelEmpty, "card2");
 
         buttonReset.setText("Reset");
@@ -187,11 +169,11 @@ public class ClientScreenView extends javax.swing.JFrame {
                         .addComponent(buttonReset)
                         .addGap(17, 17, 17))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(panelContent, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(customerDetails, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 591, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(customerDetails, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 591, Short.MAX_VALUE)
                             .addComponent(menuItems, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                        .addGap(0, 6, Short.MAX_VALUE))))
+                        .addGap(6, 6, 6))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -201,7 +183,7 @@ public class ClientScreenView extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(menuItems, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(panelContent, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(panelContent, javax.swing.GroupLayout.DEFAULT_SIZE, 141, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(buttonEnterData)
@@ -257,8 +239,6 @@ public class ClientScreenView extends javax.swing.JFrame {
     private prototypeclientserver.ClientCustomer.CustomerDetails customerDetails;
     private javax.swing.JList<String> jList1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JTable jTable1;
     private prototypeclientserver.ClientCustomer.MenuItems menuItems;
     private javax.swing.JPanel outputPanelEmpty;
     private javax.swing.JPanel panelContent;

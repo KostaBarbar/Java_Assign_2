@@ -5,6 +5,7 @@
  */
 package prototypeclientserver.components;
 
+import javax.swing.table.TableModel;
 import prototypeclientserver.MenuItem;
 
 /**
@@ -12,12 +13,15 @@ import prototypeclientserver.MenuItem;
  * @author stephenfleming
  */
 public class NutritionalInfoTable extends javax.swing.JPanel {
+    private TableModel tableDataModel;
 
     /**
      * Creates new form NutritionalInfoTable
      */
     public NutritionalInfoTable(MenuItem food, MenuItem beverage, MenuItem combined) {
         initComponents();
+        
+        tableDataModel = outputTable.getModel();
         
         updateOutputTable(food, beverage, combined);
     }
@@ -33,13 +37,14 @@ public class NutritionalInfoTable extends javax.swing.JPanel {
     public void updateOutputTable(MenuItem food, MenuItem beverage, MenuItem combined)
     {
         //Update First Row - Food
-        outputTable.setValueAt(food.getItemName(), 0, 0);
-        outputTable.setValueAt(food.getEnergy(), 0, 1);
-        outputTable.setValueAt(food.getProtein(), 0, 2);
-        outputTable.setValueAt(food.getCarbs(), 0, 3);
-        outputTable.setValueAt(food.getFat(), 0, 4);
-        outputTable.setValueAt(food.getFibre(), 0, 5);
-        outputTable.setValueAt(food.getPrice(), 0, 6);
+        tableDataModel.setValueAt(food.getItemName(), 0, 0);
+        tableDataModel.setValueAt(food.getEnergy(), 0, 1);
+        tableDataModel.setValueAt(food.getProtein(), 0, 2);
+        tableDataModel.setValueAt(food.getCarbs(), 0, 3);
+        tableDataModel.setValueAt(food.getFat(), 0, 4);
+        tableDataModel.setValueAt(food.getFibre(), 0, 5);
+        tableDataModel.setValueAt(food.getPrice(), 0, 6);
+        
         //Update Second Row - Beverage
         outputTable.setValueAt(beverage.getItemName(), 1, 0);
         outputTable.setValueAt(beverage.getEnergy(), 1, 1);
@@ -48,6 +53,7 @@ public class NutritionalInfoTable extends javax.swing.JPanel {
         outputTable.setValueAt(beverage.getFat(), 1, 4);
         outputTable.setValueAt(beverage.getFibre(), 1, 5);
         outputTable.setValueAt(beverage.getPrice(), 1, 6);
+        
         //Update Fourth Row - Total
         outputTable.setValueAt("Total Nutritional Value", 3, 0);
         outputTable.setValueAt(combined.getEnergy(), 3, 1);
@@ -56,6 +62,8 @@ public class NutritionalInfoTable extends javax.swing.JPanel {
         outputTable.setValueAt(combined.getFat(), 3, 4);
         outputTable.setValueAt(combined.getFibre(), 3, 5);
         outputTable.setValueAt(combined.getPrice(), 3, 6);
+        
+        
     }
     
     /**
@@ -91,15 +99,15 @@ public class NutritionalInfoTable extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 862, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 830, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 141, Short.MAX_VALUE)
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 

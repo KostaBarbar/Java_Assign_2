@@ -16,6 +16,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import javax.swing.JList;
+import prototypeclientserver.DataModel;
 
 import prototypeclientserver.MenuItem;
 import prototypeclientserver.Order;
@@ -32,29 +33,21 @@ public class ClientScreenController {
     private boolean readyForRecieveOrder = false;
     
     private ClientScreenView view;
-    private ClientScreenModel model;
+    private ClientScreenModel customerModel;
+    
+    private DataModel dataModel;
+    
+    //private DataController dataModel = new DataController();
     
     public ClientScreenController() throws SQLException {
         view = new ClientScreenView();
-        model = new ClientScreenModel();
+        
+        customerModel = new ClientScreenModel();
+        dataModel = new DataModel();
         
         view.setVisible(true);
         
         setViewEventListeners();
-        
-        if (model.getSQL().testConnection())
-        {
-            if (!model.getSQL().testDatabaseExists())
-            {
-                model.getSQL().createAndPopulateDatabase(model.getFoodFromCSV(), model.getBeverageFromCSV());
-            }
-            else
-            {
-                model.getSQL().connectToDatabase();
-                System.out.println("DB Already Exists.");
-            }
-        }
-        model.prepareSQL();
     }
     
     private void setViewEventListeners() {
@@ -78,6 +71,8 @@ public class ClientScreenController {
                 try {
                     //Create new order from current inputs
                     createNewOrder();
+                    
+                    dataModel.getSQL().getOrders();
                 } catch (SQLException ex) {
                     Logger.getLogger(ClientScreenController.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -109,13 +104,13 @@ public class ClientScreenController {
     public void updateTable()
     {
         //Grab food and beverage MenuItems
-        MenuItem food = model.getSpecificFood(view.getMenuItems().getCurrentFood());
-        MenuItem beverage = model.getSpecificBeverage(view.getMenuItems().getCurrentBeverage());
+        MenuItem food = dataModel.getMenuItem(view.getMenuItems().getCurrentFood());
+        MenuItem beverage = dataModel.getMenuItem(view.getMenuItems().getCurrentBeverage());
+        
         //Combine items to show total
-        MenuItem combined = model.combineMenuItems(food, beverage);
+        MenuItem combined = dataModel.combineMenuItems(food, beverage);
         
         //Update the table in the view with the appropriate values obtained 
-        //view.updateOutputTable(food, beverage, combined);
         view.addContentToOutputPanel(new NutritionalInfoTable(food, beverage, combined));
     }
     
@@ -124,11 +119,17 @@ public class ClientScreenController {
      * @param o order to be displayed
      */
     public void updateTableWithSelectedOrder(Order o) {
+        System.out.println(o);
+        
         //Grab associated items
         MenuItem food = o.getFood();
         MenuItem bev = o.getBeverage();
+        
+        System.out.println(food);
+        System.out.println(bev);
+        
         //Get combined item totals
-        MenuItem combined = model.combineMenuItems(food, bev);
+        MenuItem combined = dataModel.combineMenuItems(food, bev);
         
         //Update the table in the view with the appropriate values obtained
         //view.addContentToOutputPanel(new food, bev, combined);
@@ -163,7 +164,7 @@ public class ClientScreenController {
         //Grab customer name
         String custName = view.getCustomerDetails().getCustomerName();
         
-        model.getSQL().addOrder(model.createOrder(custName, table, new String[] {view.getMenuItems().getCurrentFood().trim(), view.getMenuItems().getCurrentBeverage().trim()}));
+        dataModel.getSQL().addOrder(dataModel.createOrder(custName, table, new String[] {view.getMenuItems().getCurrentFood().trim(), view.getMenuItems().getCurrentBeverage().trim()}));
     }   
     
     /**
@@ -178,9 +179,9 @@ public class ClientScreenController {
     public boolean validateInput()
     {
         //Check Customer Name against regex
-        if (model.validateInput(view.getCustomerDetails().getCustomerName(), CUSTOMER_NAME_REGEX))
+        if (customerModel.validateInput(view.getCustomerDetails().getCustomerName(), CUSTOMER_NAME_REGEX))
             //Check Table Number against regex
-            if (model.validateInput(view.getCustomerDetails().getTableNumber(), TABLE_NUMBER_REGEX))
+            if (customerModel.validateInput(view.getCustomerDetails().getTableNumber(), TABLE_NUMBER_REGEX))
                 //Check if a meal type has been selected
                 if (view.getCustomerDetails().getMenuType() != null) {
                     //Enable dropdown comboboxes
@@ -206,12 +207,12 @@ public class ClientScreenController {
         //Get the meal type as string as stored as a string in MenuItems
         String mealType = view.getCustomerDetails().getMenuType();
         //Filter food using stream and creates arraylist of appropriate items
-        ArrayList<MenuItem> food = model.getFood().stream().filter(x -> mealType.equals(x.getMealType())).collect(Collectors.toCollection(ArrayList::new));
+        ArrayList<MenuItem> food = dataModel.getFood().stream().filter(x -> mealType.equals(x.getMealType())).collect(Collectors.toCollection(ArrayList::new));
         //Filter beverages using stream and creates arraylist of appropriate items
-        ArrayList<MenuItem> beverage = model.getBeverage().stream().filter(x -> mealType.equals(x.getMealType())).collect(Collectors.toCollection(ArrayList::new));
+        ArrayList<MenuItem> beverage = dataModel.getBeverage().stream().filter(x -> mealType.equals(x.getMealType())).collect(Collectors.toCollection(ArrayList::new));
         //Set comboboxes in view to show updated items
-        view.getMenuItems().setFoodItems(model.getStringArray(food));
-        view.getMenuItems().setBeverageItems(model.getStringArray(beverage));
+        view.getMenuItems().setFoodItems(dataModel.getStringArray(food));
+        view.getMenuItems().setBeverageItems(dataModel.getStringArray(beverage));
     }
    
   /**
@@ -227,10 +228,10 @@ public class ClientScreenController {
         @Override
         public void focusGained(FocusEvent e) {
             //Check if orders list is empty
-            if (!model.getOrders().isEmpty())
+            if (!dataModel.getOrders().isEmpty())
             {
                 //Grab a list of all orders
-                ArrayList<Order> ol = model.getOrders();
+                ArrayList<Order> ol = dataModel.getOrders();
                 //Get the component which just lost focus
                 Component a = e.getOppositeComponent();
                                 
@@ -291,7 +292,7 @@ public class ClientScreenController {
         private ArrayList<Order> getOrders(int tablenum)
         {
             ArrayList<Order> orders = new ArrayList<>();
-            for (Order o : model.getOrders())
+            for (Order o : dataModel.getOrders())
             {
                 if (o.getTable() == tablenum)
                     orders.add(o);

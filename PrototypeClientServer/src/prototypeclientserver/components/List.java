@@ -25,8 +25,6 @@ public class List extends javax.swing.JPanel {
         initComponents();
         
         clearList();
-        
-        listDataModel = (DefaultListModel)list.getModel();
     }
     
     /**
@@ -49,6 +47,7 @@ public class List extends javax.swing.JPanel {
      * @param order order to insert
      */
     public void addOrderToList(Order order) {
+        System.out.println(order);
         listDataModel.add(listDataModel.size(), order);
     }
     
@@ -89,7 +88,9 @@ public class List extends javax.swing.JPanel {
     public void clearList() {
         DefaultListModel m = new DefaultListModel();
         m.clear();
+        
         list.setModel(m);
+        listDataModel = (DefaultListModel)list.getModel();
     }
 
     /**
@@ -117,15 +118,15 @@ public class List extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 265, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 265, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jScrollPane1)
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
