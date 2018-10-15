@@ -6,7 +6,9 @@
 package prototypeclientserver.ServerChef;
 
 import java.awt.event.ActionEvent;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
+import prototypeclientserver.DataModel;
 import prototypeclientserver.Order;
 
 /**
@@ -16,11 +18,15 @@ import prototypeclientserver.Order;
  */
 public class ChefScreenController {
     ChefScreenView view;
-    ChefScreenModel model;
+    //ChefScreenModel model;
+    
+    DataModel dataModel;
     
     public ChefScreenController() {
         view = new ChefScreenView();
-        model = new ChefScreenModel();
+        //model = new ChefScreenModel();
+        
+        dataModel = new DataModel();
         
         view.setVisible(true);
         
@@ -30,6 +36,7 @@ public class ChefScreenController {
             serveSelectedOrder();
         });
         
+        updateViewListWithOrders();
     }
     
     /**
@@ -37,7 +44,6 @@ public class ChefScreenController {
      * Prompts users with a confirmation dialog to confirm their decision
      */
     public void serveSelectedOrder() {
-
         //Code to open confirmation panel sourced from Stack Overflow thread - top answer
         //Source: https://stackoverflow.com/questions/8689122/joptionpane-yes-no-options-confirm-dialog-box-issue
         int dialogConfirm = JOptionPane.YES_OPTION;
@@ -49,9 +55,22 @@ public class ChefScreenController {
             Order o = view.getWaitingList().getSelectedOrder();
             
             if (o != null) {
-                model.serveOrder(o);
+                dataModel.serveOrder(o);
                 view.getWaitingList().removeSelectedItemFromList();
             }
         }
+        
+        updateViewListWithOrders();
+    }
+    
+    private void updateViewListWithOrders() {
+        view.getWaitingList().clearList();
+        
+        ArrayList<Order> ords = dataModel.getOrders();
+        ords.forEach(o -> {
+            //System.out.println(o + " " + o.isServed() + " " + o.isBilled());
+            if (!o.isServed() && !o.isBilled())
+                view.getWaitingList().addOrderToList(o);
+        });
     }
 }

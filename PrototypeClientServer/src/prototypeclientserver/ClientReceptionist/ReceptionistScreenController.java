@@ -6,7 +6,9 @@
 package prototypeclientserver.ClientReceptionist;
 
 import java.awt.event.ActionEvent;
+import java.util.ArrayList;
 import javax.swing.event.ListSelectionEvent;
+import prototypeclientserver.DataModel;
 import prototypeclientserver.Order;
 import prototypeclientserver.components.NutritionalInfoTable;
 
@@ -18,9 +20,15 @@ public class ReceptionistScreenController {
     private ReceptionistScreenView view;
     private ReceptionistScreenModel model;
     
+    private DataModel dataModel;
+    
     public ReceptionistScreenController() {
         view = new ReceptionistScreenView();
         model = new ReceptionistScreenModel();
+        
+        dataModel = new DataModel();
+        
+        updateViewListWithOrders();
         
         view.setVisible(true);
         
@@ -53,6 +61,16 @@ public class ReceptionistScreenController {
                 view.setBillButtonEnabled(false);
             else
                 view.setBillButtonEnabled(true);
+        });
+    }
+    
+    private void updateViewListWithOrders() {
+        view.getServedList().clearList();
+        
+        ArrayList<Order> ords = dataModel.getOrders();
+        ords.forEach(o -> {
+            if (o.isServed() && !o.isBilled())
+                view.getServedList().addOrderToList(o);
         });
     }
 }   

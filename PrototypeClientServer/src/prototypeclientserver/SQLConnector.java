@@ -236,7 +236,10 @@ public class SQLConnector {
                 newOrder.table = rs.getInt(3);
                 
                 newOrder.food = rs.getString(4);
-                newOrder.beverage = rs.getString(4);
+                newOrder.beverage = rs.getString(5);
+                
+                newOrder.served = (rs.getInt(6) == 1) ? true : false;
+                newOrder.billed = (rs.getInt(7) == 1) ? true : false;
                 
                 result.add(newOrder);
             }
@@ -247,5 +250,25 @@ public class SQLConnector {
         }
         
         return result;
+    }
+    
+    public void updateOrderBoolean(int orderId, String column, boolean newValue) {
+        int bToInt = 0;
+        if (newValue)
+            bToInt = 1;
+        
+        String sqlQuery = "UPDATE orders SET " + column + "=?" + " WHERE id=?;";
+        
+        System.out.println(sqlQuery);
+        try {
+            PreparedStatement p = myConn.prepareStatement(sqlQuery);
+            
+            p.setInt(1, bToInt);
+            p.setInt(2, orderId);
+            
+            p.executeUpdate();
+        } catch(SQLException e) {
+            System.out.println(e.toString());
+        }
     }
 }

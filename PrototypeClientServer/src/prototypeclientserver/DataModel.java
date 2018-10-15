@@ -95,7 +95,17 @@ public class DataModel {
                 MenuItem food = getMenuItem(r.food);
                 MenuItem beverage = getMenuItem(r.beverage);
                 
+                orderItems.add(food);
+                orderItems.add(beverage);
+                
                 Order o = new Order(r.name, r.id, r.table, orderItems);
+                
+                if (r.served)
+                    o.setServed(true);
+                
+                if (r.billed)
+                    o.setBilled(true);
+                
                 orders.add(o);
             });
         } catch (SQLException e) {
@@ -147,6 +157,10 @@ public class DataModel {
         ArrayList<MenuItem> items = new ArrayList<>();
         MenuItem tmp;
         
+        int orderId = orders.size();
+        if (orders.size() > 0)
+            orderId = orders.get(orders.size()-1).orderId + 1;
+        
         //Loop through each item
         for (String s : selectedItems) {
             //Grab MenuItem from string name
@@ -157,8 +171,9 @@ public class DataModel {
                 //Add to ArrayList
                 items.add(tmp);
         }
+        
         //Create new order from obtained inputs
-        Order newOrder = new Order(cn, orders.size(), table, items);
+        Order newOrder = new Order(cn, orderId, table, items);
         
         //Add to orders array
         orders.add(newOrder);
@@ -171,6 +186,12 @@ public class DataModel {
         
         sql.connectToDatabase();
         ArrayList<MenuItem> temp = sql.getMenuItems();
+    }
+    
+    public void serveOrder(Order o) {
+        o.setServed(true);
+        
+        sql.updateOrderBoolean(o.getID(), "served", true);
     }
  
     /**
