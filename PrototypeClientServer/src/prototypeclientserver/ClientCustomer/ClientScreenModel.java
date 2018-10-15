@@ -12,6 +12,7 @@ import prototypeclientserver.MenuItem;
 import prototypeclientserver.Order;
 
 import prototypeclientserver.CSVReader;
+import prototypeclientserver.DataController;
 import prototypeclientserver.SQLConnector;
 
 /**
@@ -29,8 +30,16 @@ public class ClientScreenModel {
     private ArrayList<MenuItem> food = new ArrayList<>();
     private ArrayList<MenuItem> beverage = new ArrayList<>();
     
+    private DataController data;
+    
     public ClientScreenModel() throws SQLException {
         csvReader = new CSVReader();
+        
+        data = new DataController();
+    }
+    
+    public DataController getDataController() {
+        return data;
     }
     
     public void prepareSQL() throws SQLException
@@ -60,7 +69,7 @@ public class ClientScreenModel {
      * @return ArrayList of all food items
      */
     public ArrayList<MenuItem> getFood() {
-        return food;
+        return data.getDataModel().getFood();
     }
     
     public ArrayList<MenuItem> getFoodFromCSV()
@@ -77,10 +86,9 @@ public class ClientScreenModel {
      * @return ArrayList of all beverage items
      */
     public ArrayList<MenuItem> getBeverage() {
-        return beverage;
+        return data.getDataModel().getBeverage();
     }
     
- 
     /**
      * Combines the values of two MenuItems
      * Used for the output table panel, in the total row
@@ -179,10 +187,12 @@ public class ClientScreenModel {
     public Order createOrder(String cn, int table, String[] selectedItems) {
         ArrayList<MenuItem> items = new ArrayList<>();
         MenuItem tmp;
+        
         //Loop through each item
         for (String s : selectedItems) {
             //Grab MenuItem from string name
-            tmp = getSpecificItem(s);
+            tmp = data.getDataModel().getMenuItem(s);
+            
             //Null check
             if (tmp != null)
                 //Add to ArrayList
@@ -190,6 +200,7 @@ public class ClientScreenModel {
         }
         //Create new order from obtained inputs
         Order newOrder = new Order(cn, orders.size(), table, items);
+        
         //Add to orders array
         orders.add(newOrder);
         //Return newly created order

@@ -36,25 +36,11 @@ public class ClientScreenController {
     
     public ClientScreenController() throws SQLException {
         view = new ClientScreenView();
-        model = new ClientScreenModel();
+    model = new ClientScreenModel();
         
         view.setVisible(true);
         
         setViewEventListeners();
-        
-        if (model.getSQL().testConnection())
-        {
-            if (!model.getSQL().testDatabaseExists())
-            {
-                model.getSQL().createAndPopulateDatabase(model.getFoodFromCSV(), model.getBeverageFromCSV());
-            }
-            else
-            {
-                model.getSQL().connectToDatabase();
-                System.out.println("DB Already Exists.");
-            }
-        }
-        model.prepareSQL();
     }
     
     private void setViewEventListeners() {
@@ -78,6 +64,8 @@ public class ClientScreenController {
                 try {
                     //Create new order from current inputs
                     createNewOrder();
+                    
+                    model.getSQL().getOrders();
                 } catch (SQLException ex) {
                     Logger.getLogger(ClientScreenController.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -109,8 +97,9 @@ public class ClientScreenController {
     public void updateTable()
     {
         //Grab food and beverage MenuItems
-        MenuItem food = model.getSpecificFood(view.getMenuItems().getCurrentFood());
-        MenuItem beverage = model.getSpecificBeverage(view.getMenuItems().getCurrentBeverage());
+        MenuItem food = model.getDataController().getDataModel().getMenuItem(view.getMenuItems().getCurrentFood());
+        MenuItem beverage = model.getDataController().getDataModel().getMenuItem(view.getMenuItems().getCurrentBeverage());
+        
         //Combine items to show total
         MenuItem combined = model.combineMenuItems(food, beverage);
         
@@ -124,9 +113,15 @@ public class ClientScreenController {
      * @param o order to be displayed
      */
     public void updateTableWithSelectedOrder(Order o) {
+        System.out.println(o);
+        
         //Grab associated items
         MenuItem food = o.getFood();
         MenuItem bev = o.getBeverage();
+        
+        System.out.println(food);
+        System.out.println(bev);
+        
         //Get combined item totals
         MenuItem combined = model.combineMenuItems(food, bev);
         

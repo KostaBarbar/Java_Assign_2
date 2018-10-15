@@ -22,13 +22,15 @@ public class PrototypeClientServer {
     public static void main(String[] args) {
         ChefScreenController chef = new ChefScreenController();
         
+        ReceptionistScreenController receptionist = new ReceptionistScreenController();
+        
         try {
             ClientScreenController customer = new ClientScreenController();
         } catch (SQLException e) {
             System.out.println(e.toString());
         }
         
-        ReceptionistScreenController receptionist = new ReceptionistScreenController();
+        
     }
     
     

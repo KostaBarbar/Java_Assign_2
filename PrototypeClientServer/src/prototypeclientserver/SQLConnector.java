@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.TimeZone;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import prototypeclientserver.OrderRecord;
 
 /**
  *
@@ -29,9 +30,10 @@ public class SQLConnector {
     public SQLConnector(){}
     
     public boolean testConnection()
-    {
+    {   
         try {
             myConn = DriverManager.getConnection(getconn + "?user=" + user + "&password=" + pass);
+            
             //Connection successfully connected check sourced from Stack Overflow
             //Source: https://stackoverflow.com/questions/7764671/java-jdbc-connection-status
             if (!myConn.isClosed() || myConn != null)
@@ -41,6 +43,7 @@ public class SQLConnector {
         } catch (SQLException ex) {
             Logger.getLogger(SQLConnector.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
         return false;
     }
     
@@ -154,11 +157,11 @@ public class SQLConnector {
     public ArrayList<MenuItem> getMenuItems() throws SQLException
     {
         ArrayList<MenuItem> result = new ArrayList<>();
+        
         String sqlQuery = "SELECT * FROM menuitems";
         myRs = myStmt.executeQuery(sqlQuery);
-        while (myRs.next())
-        {
-            System.out.println("y");
+        
+        while (myRs.next()) {
             result.add(new MenuItem(
                     myRs.getString(1), 
                     myRs.getString(2), 
@@ -172,6 +175,7 @@ public class SQLConnector {
                     Integer.parseInt(myRs.getString(10))
             ));
         }
+        
         return result;
     }
     
@@ -210,5 +214,38 @@ public class SQLConnector {
         if (myRs != null) myRs.close();
         if (myStmt != null) myStmt.close();
         if (myConn != null) myConn.close();
+    }
+    
+    public ArrayList<OrderRecord> getOrders()  throws SQLException {
+        ArrayList<OrderRecord> result = new ArrayList<>();
+        String sqlQuery = "SELECT * FROM `orders`";
+        
+        try {
+            PreparedStatement p = myConn.prepareStatement(sqlQuery);
+            
+            ResultSet rs = p.executeQuery(sqlQuery);
+            while (rs.next()) {
+                //table schema
+                //id, name, tab_num, foodname, beveragename, served, billed, time
+                
+                // Customer name, orderid, table, items
+                OrderRecord newOrder = new OrderRecord();
+                
+                newOrder.name = rs.getString(2);
+                newOrder.id = rs.getInt(1);
+                newOrder.table = rs.getInt(3);
+                
+                newOrder.food = rs.getString(4);
+                newOrder.beverage = rs.getString(4);
+                
+                result.add(newOrder);
+            }
+            
+        } catch (Exception e) {
+            System.out.println("Could not get orders " + e.toString());
+            System.out.println(myStmt);
+        }
+        
+        return result;
     }
 }

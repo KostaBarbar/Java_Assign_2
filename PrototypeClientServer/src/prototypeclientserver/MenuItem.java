@@ -14,7 +14,7 @@ public class MenuItem {
     
     private final String MenuDesc;
     private final String MealType;
-    private String ItemName;
+    private String ItemName = "";
     private final int Price;
     private final int Energy;
     private final float Protein;

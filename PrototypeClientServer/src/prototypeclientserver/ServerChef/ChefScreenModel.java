@@ -6,8 +6,6 @@
 package prototypeclientserver.ServerChef;
 
 import java.util.ArrayList;
-import javax.swing.DefaultListModel;
-import javax.swing.JList;
 import prototypeclientserver.Order;
 
 /**
