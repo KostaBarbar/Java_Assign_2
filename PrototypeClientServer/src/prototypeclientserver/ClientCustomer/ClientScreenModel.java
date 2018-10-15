@@ -9,84 +9,21 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.regex.Pattern;
 import prototypeclientserver.MenuItem;
-import prototypeclientserver.Order;
-
-import prototypeclientserver.CSVReader;
 import prototypeclientserver.DataController;
-import prototypeclientserver.SQLConnector;
 
 /**
  *
  * @author stephenfleming
  */
 public class ClientScreenModel {
-    private final String PATH = System.getProperty("user.dir") + "/src/prototypeclientserver/items.csv";
-    
-    private CSVReader csvReader;
-    
-    private SQLConnector sql = new SQLConnector();
-    
-    private ArrayList<Order> orders = new ArrayList<>();
-    private ArrayList<MenuItem> food = new ArrayList<>();
-    private ArrayList<MenuItem> beverage = new ArrayList<>();
-    
     private DataController data;
     
     public ClientScreenModel() throws SQLException {
-        csvReader = new CSVReader();
-        
         data = new DataController();
     }
     
     public DataController getDataController() {
         return data;
-    }
-    
-    public void prepareSQL() throws SQLException
-    {
-        
-        sql.connectToDatabase();
-        ArrayList<MenuItem> temp = sql.getMenuItems();
-        food = csvReader.GetFood(temp);
-        beverage = csvReader.GetBeverage(temp); 
-    }
-    
-    
-    public SQLConnector getSQL()
-    {
-        return sql;
-    }
-    
-    /**
-     * Getter for orders in model
-     * @return ArrayList of all orders
-     */
-    public ArrayList<Order> getOrders() {
-        return orders;
-    }
-    /**
-     * Getter for food in model
-     * @return ArrayList of all food items
-     */
-    public ArrayList<MenuItem> getFood() {
-        return data.getDataModel().getFood();
-    }
-    
-    public ArrayList<MenuItem> getFoodFromCSV()
-    {
-        return csvReader.GetFood(PATH);
-    }
-    
-    public ArrayList<MenuItem> getBeverageFromCSV()
-    {
-        return csvReader.GetBeverage(PATH);
-    }
-    /**
-     * Getter for beverages in model
-     * @return ArrayList of all beverage items
-     */
-    public ArrayList<MenuItem> getBeverage() {
-        return data.getDataModel().getBeverage();
     }
     
     /**
@@ -128,83 +65,6 @@ public class ClientScreenModel {
         }
         //Return result
         return values;
-    }
-    
-  /**
-     * Search for the food MenuItem associated with a specific item name
-     * @param itemname item name string to search for
-     * @return MenuItem which contains specified item name
-     */
-    public MenuItem getSpecificFood(String itemname)
-    {
-        for (MenuItem f : food) {
-            if (f.getItemName().equals(itemname)) {
-                return f;
-            }
-        }
-        //If no MenuItem is found return null
-        return null;
-    }
-    /**
-     * Search for the beverage MenuItem associated with a specific item name
-     * @param itemname item name string to search for
-     * @return MenuItem which contains specified item name
-     */
-    public MenuItem getSpecificBeverage(String itemname)
-    {
-        for (MenuItem b : beverage) {
-            if (b.getItemName().equals(itemname)) {
-                return b;
-            }
-        }
-        //If no MenuItem is found return null
-        return null;
-    }
-    
-    /**
-     * Searches Food and Beverage ArrayLists for specified item
-     * @param itemname item name string to search for
-     * @return MenuItem which contains specified item name
-     */
-    public MenuItem getSpecificItem(String itemname) {
-        //Try get MenuItem as food
-        MenuItem tmp = getSpecificFood(itemname);
-        //If passes, return MenuItem
-        if (tmp != null)
-            return tmp;
-        else
-            //Else check beverages and return MenuItem found
-            return tmp = getSpecificBeverage(itemname);
-    } 
-    
-    /**
-     * Creates a new order and returns the order created
-     * @param cn customer name string
-     * @param table table number integer
-     * @param selectedItems menu items selected array
-     * @return newly created order
-     */
-    public Order createOrder(String cn, int table, String[] selectedItems) {
-        ArrayList<MenuItem> items = new ArrayList<>();
-        MenuItem tmp;
-        
-        //Loop through each item
-        for (String s : selectedItems) {
-            //Grab MenuItem from string name
-            tmp = data.getDataModel().getMenuItem(s);
-            
-            //Null check
-            if (tmp != null)
-                //Add to ArrayList
-                items.add(tmp);
-        }
-        //Create new order from obtained inputs
-        Order newOrder = new Order(cn, orders.size(), table, items);
-        
-        //Add to orders array
-        orders.add(newOrder);
-        //Return newly created order
-        return newOrder;
     }
     
     /**
