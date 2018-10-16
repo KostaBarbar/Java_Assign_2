@@ -23,6 +23,8 @@ public class ClientScreenView extends javax.swing.JFrame {
      */
     public ClientScreenView() {
         initComponents();
+        
+        this.setName("Customer");
     }
     /**
      * Adds an ActionListener for Enter Data button

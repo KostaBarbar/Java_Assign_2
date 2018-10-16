@@ -6,9 +6,11 @@
 package prototypeclientserver.ClientReceptionist;
 
 import java.awt.event.ActionEvent;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import javax.swing.event.ListSelectionEvent;
 import prototypeclientserver.DataModel;
+import prototypeclientserver.MenuItem;
 import prototypeclientserver.Order;
 import prototypeclientserver.components.NutritionalInfoTable;
 
@@ -32,7 +34,6 @@ public class ReceptionistScreenController {
         
         view.setVisible(true);
         
-        
         //Bill Listener
         view.addBillListener((ActionEvent e) -> {
             Order selected = view.getServedList().getSelectedOrder();
@@ -47,10 +48,21 @@ public class ReceptionistScreenController {
             //Disable bill button again
             view.setBillButtonEnabled(false);
             
+            MenuItem combined = dataModel.combineMenuItems(selected.getFood(), selected.getBeverage());
+            
             //Show bill
             //updateTableWithSelectedOrder(view.getOrderStatus().getSelectedServedOrder());
-            NutritionalInfoTable table = new NutritionalInfoTable(selected.getFood(), selected.getBeverage(), null);
+            NutritionalInfoTable table = new NutritionalInfoTable(selected.getFood(), selected.getBeverage(), combined);
             view.addContentToOutputPanel(table);
+            
+            Order o = view.getServedList().getSelectedOrder();
+            
+            if (o != null) {
+                dataModel.billOrder(o);
+                view.getServedList().removeSelectedItemFromList();
+                
+                updateViewListWithOrders();
+            }
             
             //Change output panel to show the bill
             //view.changeOutputPanel(1);
