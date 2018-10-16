@@ -18,6 +18,8 @@ public class ChefScreenView extends javax.swing.JFrame {
      */
     public ChefScreenView() {
         initComponents();
+        
+        this.setName("Chef");
     }
     
     /**
@@ -54,7 +56,7 @@ public class ChefScreenView extends javax.swing.JFrame {
 
         buttonPrepare.setText("Prepare Selected");
 
-        jLabel1.setText("Waiting Orders");
+        jLabel1.setText("Chef - Waiting Orders");
 
         listWaiting.setPreferredSize(new java.awt.Dimension(325, 160));
 

@@ -5,8 +5,11 @@
  */
 package prototypeclientserver.ClientReceptionist;
 
+import java.awt.BorderLayout;
+import java.awt.Panel;
 import java.awt.event.ActionListener;
 import javax.swing.JPanel;
+import java.awt.Panel;
 import prototypeclientserver.components.List;
 
 /**
@@ -20,6 +23,8 @@ public class ReceptionistScreenView extends javax.swing.JFrame {
      */
     public ReceptionistScreenView() {
         initComponents();
+        
+        this.setName("Receptionist");
         
         setBillButtonEnabled(false);
     }
@@ -47,7 +52,16 @@ public class ReceptionistScreenView extends javax.swing.JFrame {
      */
     public void addContentToOutputPanel(JPanel p) {
         panelOutput.removeAll();
-        panelOutput.add(p);
+        
+        Panel p2 = new Panel();
+        p2.setLayout(new BorderLayout());
+        p2.add(p);
+        
+        panelOutput.add(p2);
+        
+        //panelOutput.updateUI();
+        panelOutput.updateUI();
+        pack();
     }
     
     /**
@@ -57,6 +71,7 @@ public class ReceptionistScreenView extends javax.swing.JFrame {
     public void setBillButtonEnabled(boolean value) {
         buttonBill.setEnabled(value);
     }
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -69,39 +84,32 @@ public class ReceptionistScreenView extends javax.swing.JFrame {
 
         jLabel1 = new javax.swing.JLabel();
         buttonBill = new javax.swing.JButton();
-        panelOutput = new java.awt.Panel();
         servedList = new prototypeclientserver.components.List();
+        panelOutput = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel1.setText("Served Orders");
+        jLabel1.setText("Receptionist - Served Orders");
 
         buttonBill.setText("Bill Order");
 
-        javax.swing.GroupLayout panelOutputLayout = new javax.swing.GroupLayout(panelOutput);
-        panelOutput.setLayout(panelOutputLayout);
-        panelOutputLayout.setHorizontalGroup(
-            panelOutputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-        panelOutputLayout.setVerticalGroup(
-            panelOutputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 31, Short.MAX_VALUE)
-        );
+        servedList.setPreferredSize(new java.awt.Dimension(325, 160));
+
+        panelOutput.setLayout(new java.awt.BorderLayout());
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(servedList, javax.swing.GroupLayout.DEFAULT_SIZE, 334, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(panelOutput, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(buttonBill))
-                    .addComponent(panelOutput, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-            .addComponent(servedList, javax.swing.GroupLayout.DEFAULT_SIZE, 287, Short.MAX_VALUE)
+                        .addComponent(buttonBill))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -109,8 +117,8 @@ public class ReceptionistScreenView extends javax.swing.JFrame {
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(servedList, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(6, 6, 6)
-                .addComponent(panelOutput, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 51, Short.MAX_VALUE)
+                .addComponent(panelOutput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(buttonBill)
                 .addContainerGap())
@@ -157,7 +165,7 @@ public class ReceptionistScreenView extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton buttonBill;
     private javax.swing.JLabel jLabel1;
-    private java.awt.Panel panelOutput;
+    private javax.swing.JPanel panelOutput;
     private prototypeclientserver.components.List servedList;
     // End of variables declaration//GEN-END:variables
 }

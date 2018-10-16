@@ -110,6 +110,9 @@ public class List extends javax.swing.JPanel {
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
+        list.setMaximumSize(null);
+        list.setMinimumSize(null);
+        list.setPreferredSize(new java.awt.Dimension(100, 85));
         jScrollPane1.setViewportView(list);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);

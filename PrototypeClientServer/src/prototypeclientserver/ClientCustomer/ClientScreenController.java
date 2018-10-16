@@ -125,9 +125,6 @@ public class ClientScreenController {
         MenuItem food = o.getFood();
         MenuItem bev = o.getBeverage();
         
-        System.out.println(food);
-        System.out.println(bev);
-        
         //Get combined item totals
         MenuItem combined = dataModel.combineMenuItems(food, bev);
         

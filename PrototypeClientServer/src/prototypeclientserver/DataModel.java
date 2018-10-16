@@ -193,6 +193,13 @@ public class DataModel {
         
         sql.updateOrderBoolean(o.getID(), "served", true);
     }
+    
+    public void billOrder(Order o) {
+        o.setBilled(true);
+        
+        sql.updateOrderBoolean(o.getID(), "billed", true);
+    }
+ 
  
     /**
      * Combines the values of two MenuItems
