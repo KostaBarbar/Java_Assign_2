@@ -15,7 +15,6 @@ import prototypeclientserver.ServerChef.ChefScreenController;
  * @author stephenfleming
  */
 public class PrototypeClientServer {
-
     /**
      * @param args the command line arguments
      */
