@@ -87,15 +87,7 @@ public class MainWindow extends javax.swing.JFrame {
     {
         buttonQuit.addActionListener(l);
     }
-    /**
-     * Method to make Display Button focusable
-     * Used to prevent Focus Listener bug
-     * @param b boolean - set focusable to this
-     */
-    public void setDisplayOrderFocus(boolean b)
-    {
-        buttonDisplayOrder.setFocusable(b);
-    }
+    
     /**
      * Adds an ActionListener for Prepare button
      * @param l ActionListener to add
@@ -110,6 +102,17 @@ public class MainWindow extends javax.swing.JFrame {
     public void addBillListener(ActionListener l) {
         buttonBill.addActionListener(l);
     }
+    
+    /**
+     * Method to make Display Button focusable
+     * Used to prevent Focus Listener bug
+     * @param b boolean - set focusable to this
+     */
+    public void setDisplayOrderFocus(boolean b)
+    {
+        buttonDisplayOrder.setFocusable(b);
+    }
+
     /**
      * Change the output card layout to the appropriate panel
      * Panels Index:
