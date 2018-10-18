@@ -20,6 +20,8 @@ public class DataModel {
         
         private onModelUpdate callback;
         
+        private boolean active;
+        
         public DataModelUpdater(Object syncObj, int time, onModelUpdate evt) {
             synchroObject = syncObj;
             invertal = time;
@@ -43,7 +45,7 @@ public class DataModel {
                     }
                 }
             } catch (Exception e) {
-                System.out.println(e.toString());
+                e.printStackTrace();
             }
         }    
     }
@@ -61,6 +63,7 @@ public class DataModel {
     private ArrayList<MenuItem> beverage = new ArrayList<>();
     
     private DataModelUpdater updater;
+    
     
     public DataModel() {
         if (sql.testConnection()) {
@@ -87,10 +90,10 @@ public class DataModel {
     }
     
     public void setUpdateInvertal(Object sync, int milliseconds, onModelUpdate evt) {
-        if (updater != null)
-            updater.setInvertal(milliseconds);
-        else 
-            updater = new DataModelUpdater(sync, milliseconds, evt);
+        if (updater != null) 
+            updater.stop();
+
+        updater = new DataModelUpdater(sync, milliseconds, evt);
     }
     
     public SQLConnector getSQL() {

@@ -39,6 +39,9 @@ public class List extends javax.swing.JPanel {
      * @return Currently selected order in list
      */
     public Order getSelectedOrder() {
+        if (list.getSelectedIndex() == -1)
+            return null;
+        
         return listDataModel.get(list.getSelectedIndex());
     }
     
@@ -47,7 +50,6 @@ public class List extends javax.swing.JPanel {
      * @param order order to insert
      */
     public void addOrderToList(Order order) {
-        System.out.println(order);
         listDataModel.add(listDataModel.size(), order);
     }
     
@@ -91,6 +93,29 @@ public class List extends javax.swing.JPanel {
         
         list.setModel(m);
         listDataModel = (DefaultListModel)list.getModel();
+    }
+    
+    /**
+     * Get the index of the currently selected list item
+     * @return integer index 
+     */
+    public int getSelectedIndex() {
+        int idx = -1;
+        synchronized (list) {
+            idx = list.getSelectedIndex();
+        }
+        
+        return idx;
+    }
+    
+    /**
+     * Select the list item at the index
+     * @param idx index value
+     */
+    public void setSelectedIndex(int idx) {
+        synchronized (list) {
+            list.setSelectedIndex(idx);
+        }
     }
 
     /**
