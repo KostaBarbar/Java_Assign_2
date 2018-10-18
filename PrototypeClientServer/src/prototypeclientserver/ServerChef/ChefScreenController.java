@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import prototypeclientserver.DataModel;
 import prototypeclientserver.Order;
+import prototypeclientserver.onModelUpdate;
 
 /**
  * This is the controller for the Chef Screen. 
@@ -27,6 +28,13 @@ public class ChefScreenController {
         //model = new ChefScreenModel();
         
         dataModel = new DataModel();
+        dataModel.filterOrdersForChef();
+        
+        dataModel.setUpdateInvertal(view, 5000, new onModelUpdate() {
+            public void onUpdate() {
+                updateViewListWithOrders();
+            }
+        });
         
         view.setVisible(true);
         
@@ -34,6 +42,10 @@ public class ChefScreenController {
         view.addPrepareListener((ActionEvent e) -> {
             //Serve the current selected order
             serveSelectedOrder();
+        });
+        
+        view.addRefreshListener((ActionEvent e) -> { 
+            updateViewListWithOrders();
         });
         
         updateViewListWithOrders();
@@ -64,13 +76,17 @@ public class ChefScreenController {
     }
     
     private void updateViewListWithOrders() {
+        int lastSel = view.getWaitingList().getSelectedIndex();
+        
         view.getWaitingList().clearList();
         
         ArrayList<Order> ords = dataModel.getOrders();
         ords.forEach(o -> {
-            //System.out.println(o + " " + o.isServed() + " " + o.isBilled());
             if (!o.isServed() && !o.isBilled())
                 view.getWaitingList().addOrderToList(o);
         });
+        
+        if (lastSel != -1)
+            view.getWaitingList().setSelectedIndex(lastSel);
     }
 }

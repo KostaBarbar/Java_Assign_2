@@ -6,13 +6,13 @@
 package prototypeclientserver.ClientReceptionist;
 
 import java.awt.event.ActionEvent;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import javax.swing.event.ListSelectionEvent;
 import prototypeclientserver.DataModel;
 import prototypeclientserver.MenuItem;
 import prototypeclientserver.Order;
 import prototypeclientserver.components.NutritionalInfoTable;
+import prototypeclientserver.onModelUpdate;
 
 /**
  *
@@ -29,6 +29,11 @@ public class ReceptionistScreenController {
         model = new ReceptionistScreenModel();
         
         dataModel = new DataModel();
+        dataModel.setUpdateInvertal(view, 5000, new onModelUpdate() {
+            public void onUpdate() {
+                    updateViewListWithOrders();
+            }
+        });
         
         updateViewListWithOrders();
         
@@ -39,7 +44,7 @@ public class ReceptionistScreenController {
             Order selected = view.getServedList().getSelectedOrder();
             
             //Check if item has been billed yet
-            if (selected.isBilled())
+            if (selected == null || selected.isBilled())
                 return;
             
             //If not billed, bill the selected order       
@@ -61,7 +66,7 @@ public class ReceptionistScreenController {
                 dataModel.billOrder(o);
                 view.getServedList().removeSelectedItemFromList();
                 
-                updateViewListWithOrders();
+                //updateViewListWithOrders();
             }
             
             //Change output panel to show the bill
@@ -69,6 +74,9 @@ public class ReceptionistScreenController {
         });
         
         view.getServedList().addListSelectionEventListener((ListSelectionEvent e) -> {
+            if (view.getServedList().getSelectedOrder() == null)
+                return;
+            
             if (view.getServedList().getSelectedOrder().isBilled())
                 view.setBillButtonEnabled(false);
             else
@@ -77,6 +85,8 @@ public class ReceptionistScreenController {
     }
     
     private void updateViewListWithOrders() {
+        int lastSelected = view.getServedList().getSelectedIndex();
+        
         view.getServedList().clearList();
         
         ArrayList<Order> ords = dataModel.getOrders();
@@ -84,5 +94,8 @@ public class ReceptionistScreenController {
             if (o.isServed() && !o.isBilled())
                 view.getServedList().addOrderToList(o);
         });
+        
+        if (lastSelected != -1)
+            view.getServedList().setSelectedIndex(lastSelected);
     }
 }   
