@@ -7,7 +7,6 @@ package prototypeclientserver;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.regex.Pattern;
 
 /**
  * Contains most\all the functionality that the customer model did.
@@ -15,6 +14,40 @@ import java.util.regex.Pattern;
  * @author stephenfleming
  */
 public class DataModel {
+    private class DataModelUpdater extends Thread {
+        private Object synchroObject;
+        private int invertal;
+        
+        private onModelUpdate callback;
+        
+        public DataModelUpdater(Object syncObj, int time, onModelUpdate evt) {
+            synchroObject = syncObj;
+            invertal = time;
+            callback = evt;
+            
+            this.start();
+        }
+        
+        public synchronized void setInvertal(int time) {
+            invertal = time;
+        }
+        
+        @Override
+        public void run() {
+            try {
+                while (true) {
+                    Thread.sleep(invertal);
+                    
+                    synchronized(synchroObject){
+                        callback.onUpdate();
+                    }
+                }
+            } catch (Exception e) {
+                System.out.println(e.toString());
+            }
+        }    
+    }
+    
     private final String PATH = System.getProperty("user.dir") + "/src/prototypeclientserver/items.csv";
     
     private SQLConnector sql = new SQLConnector();
@@ -26,6 +59,8 @@ public class DataModel {
     
     private ArrayList<MenuItem> food = new ArrayList<>();
     private ArrayList<MenuItem> beverage = new ArrayList<>();
+    
+    private DataModelUpdater updater;
     
     public DataModel() {
         if (sql.testConnection()) {
@@ -51,12 +86,21 @@ public class DataModel {
         updateOrderList();
     }
     
+    public void setUpdateInvertal(Object sync, int milliseconds, onModelUpdate evt) {
+        if (updater != null)
+            updater.setInvertal(milliseconds);
+        else 
+            updater = new DataModelUpdater(sync, milliseconds, evt);
+    }
+    
     public SQLConnector getSQL() {
         return sql;
     }
    
     
     public ArrayList<Order> getOrders() {
+        updateOrderList();
+            
         return orders;
     }
     
@@ -87,6 +131,8 @@ public class DataModel {
     }
     
     public void updateOrderList ( ){
+        orders.clear();
+        
         try {
             ArrayList<OrderRecord> orderRecords = sql.getOrders();
             
@@ -181,6 +227,16 @@ public class DataModel {
         return newOrder;
     }
     
+    public void filterOrdersForChef()
+    {
+        int length = orders.size() - 1;
+        for (int i = length; i >= 0; i--)
+        {
+            if (orders.get(i).isServed())
+                    orders.remove(i);
+        }
+    }
+    
     public void prepareSQL() throws SQLException
     {
         
@@ -241,5 +297,10 @@ public class DataModel {
         //Return result
         return values;
     }
-   
+    
+    public void resetOrders()
+    {
+        orders = new ArrayList<>();
+    }
+    
 }

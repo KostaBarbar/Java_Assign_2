@@ -19,6 +19,11 @@ public class MenuItems extends javax.swing.JPanel {
         //Disable combo-boxes        
         foodItemDropdown.setEnabled(false);
         beverageItemDropdown.setEnabled(false);
+        //Used to fix combobox items being hidden bug
+        //Sourced from : https://community.oracle.com/thread/1495739
+        foodItemDropdown.setLightWeightPopupEnabled(false);
+        beverageItemDropdown.setLightWeightPopupEnabled(false);
+        //End borrowed code
     }
     /**
      * Resets inputs to their original state

@@ -15,7 +15,11 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
+import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import prototypeclientserver.DataModel;
 
 import prototypeclientserver.MenuItem;
@@ -29,6 +33,7 @@ import prototypeclientserver.components.NutritionalInfoTable;
 public class ClientScreenController {
     private static final String TABLE_NUMBER_REGEX = "([1-8]{1})+";
     private static final String CUSTOMER_NAME_REGEX = "([A-Za-z ]{2,15})+";
+    private static final String ADMIN_PASSWORD = "admin";
     
     private boolean readyForRecieveOrder = false;
     
@@ -37,13 +42,12 @@ public class ClientScreenController {
     
     private DataModel dataModel;
     
-    //private DataController dataModel = new DataController();
-    
     public ClientScreenController() throws SQLException {
         view = new ClientScreenView();
         
         customerModel = new ClientScreenModel();
         dataModel = new DataModel();
+        dataModel.resetOrders();
         
         view.setVisible(true);
         
@@ -78,6 +82,9 @@ public class ClientScreenController {
                 }
                 //Reset the input options
                 resetGUIOptions();
+                view.setOutputPanel(0);
+                view.resetOutputPanel();
+                
             }
         });
         
@@ -89,6 +96,7 @@ public class ClientScreenController {
                 //Change view to output panel
                 //view.changeOutputPanel(1);
                 //Update table to show current selection
+                view.setOutputPanel(2);
                 updateTable();
             } else {
                 //Prompt users with input
@@ -98,7 +106,47 @@ public class ClientScreenController {
         
         
         //Display Order Listener
-        view.addDisplayOrderListener(new DOFListener());
+        //view.addDisplayOrderListener(new DOFListener());
+        view.addDisplayOrderListener((ActionEvent e) -> {
+            if (dataModel.getOrders().isEmpty())
+                return;
+            view.setOutputPanel(1);
+            view.updateOrderTable(dataModel.getOrders());
+            
+        });
+        
+        //Reset Listener
+        view.addResetListener((ActionEvent e) -> {
+            //Code to create a password insertion popup borrowed
+            //Source : https://stackoverflow.com/questions/8881213/joptionpane-to-get-password
+            JPanel panel = new JPanel();
+            JLabel label = new JLabel("Enter staff password:");
+            JPasswordField pass = new JPasswordField(10);
+            panel.add(label);
+            panel.add(pass);
+            String[] options = new String[]{"OK", "Cancel"};
+            int option = JOptionPane.showOptionDialog(null, panel, "The title",
+                                     JOptionPane.NO_OPTION, JOptionPane.PLAIN_MESSAGE,
+                                     null, options, options[1]);
+            //End borrowed
+            if(option == 0) // pressing OK button
+            {
+                char[] password = pass.getPassword();
+                String temp = new String(password);
+                if (!temp.equals(ADMIN_PASSWORD))
+                {
+                    view.displayPopup("Incorrect password!");
+                }
+                else
+                {
+                    resetGUIOptions();
+                    view.setOutputPanel(0);
+                    view.resetOutputPanel();
+                    dataModel.resetOrders();
+                    view.displayPopup("Form reset!");
+                }   
+            }
+        });
     }
     
     public void updateTable()
@@ -111,7 +159,7 @@ public class ClientScreenController {
         MenuItem combined = dataModel.combineMenuItems(food, beverage);
         
         //Update the table in the view with the appropriate values obtained 
-        view.addContentToOutputPanel(new NutritionalInfoTable(food, beverage, combined));
+        view.updateOutputTable(food, beverage, combined);
     }
     
     /**
