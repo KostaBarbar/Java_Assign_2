@@ -22,7 +22,9 @@
             </reference>
         </references>
         <spellchecker-wordlist xmlns="http://www.netbeans.org/ns/spellchecker-wordlist/1">
+            <word>behaviour</word>
             <word>regex</word>
+            <word>tablenum</word>
         </spellchecker-wordlist>
     </configuration>
 </project>
