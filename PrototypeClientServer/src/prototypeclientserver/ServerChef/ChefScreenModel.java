@@ -11,6 +11,7 @@ import prototypeclientserver.Order;
 /**
  * The model for the Chef Screen.
  * This class holds lists of waiting and served orders, and manages the server.
+ * @author stephenfleming & kosta
  */
 public class ChefScreenModel {
     ArrayList<Order> waitingOrders;

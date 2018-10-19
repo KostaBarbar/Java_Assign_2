@@ -5,15 +5,17 @@
  */
 package prototypeclientserver;
 
-import java.sql.SQLException;
-
 /**
- *
- * @author stephenfleming
+ * Class to encapsulate the DataModel 
+ * @author stephenfleming & kosta
  */
+
 public class DataController {
+    
     private DataModel model;
-   
+   /**
+    * Public constructor to initialize the DataController
+    */
     public DataController (){
         model = new DataModel();
 
@@ -22,11 +24,17 @@ public class DataController {
         
         System.out.println(model.getMenuItems().size() + " " + model.getOrders().size());
     }
-    
+    /**
+     * Getter for the model of the DataController
+     * @return the model
+     */
     public DataModel getDataModel() {
         return model;
     }
-    
+    /**
+     * Getter for the SQLConnector of the DataController
+     * @return the SQLConnector
+     */
     public SQLConnector getSQL() {
         return model.getSQL();
     }

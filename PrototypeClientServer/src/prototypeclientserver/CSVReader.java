@@ -16,43 +16,75 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 /**
- *
- * @author kosta
+ * Class to handle reading data from CSV
+ * Can read in all values or specifically food or beverage
+ * Formats inputs to ensure validity and common formatting
+ * @author stephenfleming & kosta
  */
 public class CSVReader {
-    
+    /**
+     * Method to read in CSV file, format the data and return the result.
+     * @param p path to CSV file from main folder
+     * @return ArrayList<MenuItem> of all entries from CSV
+     */
     public ArrayList<MenuItem> GetResult(String p)
     {
         return FormatCSVArray(CSVtoArray(p));
     }
-    
+    /**
+     * Method to read in CSV file, format the data and return only food items
+     * @param p path to CSV file from main folder
+     * @return ArrayList<MenuItem> of all food entries from CSV
+     */
     public ArrayList<MenuItem> GetFood(String p)
     {
         ArrayList<MenuItem> result = GetResult(p);
         return result.stream().filter(x -> "food".equals(x.getMenuDesc())).collect(Collectors.toCollection(ArrayList::new));
     }
-    
+    /**
+     * Method to get all food items from an ArrayList<MenuItem>
+     * @param arr ArrayList to sort
+     * @return filtered ArrayList containing only beverages
+     */
     public ArrayList<MenuItem> GetFood(ArrayList<MenuItem> arr)
     {
         return arr.stream().filter(x -> "food".equals(x.getMenuDesc())).collect(Collectors.toCollection(ArrayList::new));
     }
-    
+    /**
+     * Method to read in CSV file, format the data and return only beverage items
+     * @param p path to CSV file from main folder
+     * @return ArrayList<MenuItem> of all beverage entries from CSV
+     */
     public ArrayList<MenuItem> GetBeverage(String p)
     {
         ArrayList<MenuItem> result = GetResult(p);
         return result.stream().filter(x -> "Beverage".equals(x.getMenuDesc())).collect(Collectors.toCollection(ArrayList::new));
     }
-    
+    /**
+     * Method to get all beverages from an ArrayList<MenuItem>
+     * @param arr ArrayList to sort
+     * @return filtered ArrayList containing only beverages
+     */
     public ArrayList<MenuItem> GetBeverage(ArrayList<MenuItem> arr)
     {
         return arr.stream().filter(x -> "Beverage".equals(x.getMenuDesc())).collect(Collectors.toCollection(ArrayList::new));
     }
-    
+    /**
+     * Sorts an ArrayList<MenuItem> via the mealtype corresponding to the sort variable 
+     * @param sort mealtype string to sort by
+     * @param result ArrayList<MenuItem> of all items to sort 
+     * @return ArrayList<MenuItem> with items with the corresponding mealtype
+     */
     public ArrayList<MenuItem> RadioSort(String sort, ArrayList<MenuItem> result)
     {
         return result.stream().filter(x -> sort.equals(x.getMealType())).collect(Collectors.toCollection(ArrayList::new));
     }
-    
+    /**
+     * Method to read in raw data from a CSV array
+     * Given the format of the specific CSV, it skips reading the first line
+     * @param p path to CSV file from main folder
+     * @return ArrayList<MenuItem> of all entries found
+     */ 
     public ArrayList<MenuItem> CSVtoArray(String p)
     {
         //Init variables
@@ -88,7 +120,11 @@ public class CSVReader {
         //Return created list of menu items
         return result;
     }
-    
+    /**
+     * Method to correct spelling errors in MenuItems
+     * @param arr ArrayList<MenuItem> to format
+     * @return formated ArrayList<MenuItem>
+     */
     public ArrayList<MenuItem> FormatCSVArray(ArrayList<MenuItem> arr)
     {
         for (MenuItem m : arr)

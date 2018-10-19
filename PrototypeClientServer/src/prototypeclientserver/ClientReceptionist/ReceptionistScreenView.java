@@ -13,8 +13,8 @@ import java.awt.Panel;
 import prototypeclientserver.components.List;
 
 /**
- *
- * @author stephenfleming
+ * Receptionist screen view class
+ * @author stephenfleming & kosta
  */
 public class ReceptionistScreenView extends javax.swing.JFrame {
 

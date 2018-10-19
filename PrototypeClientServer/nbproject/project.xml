@@ -23,7 +23,17 @@
         </references>
         <spellchecker-wordlist xmlns="http://www.netbeans.org/ns/spellchecker-wordlist/1">
             <word>behaviour</word>
+            <word>comboboxes</word>
+            <word>customerdetails</word>
+            <word>fibre</word>
+            <word>Initially</word>
+            <word>int</word>
+            <word>mealtype</word>
+            <word>menuitems</word>
+            <word>order's</word>
+            <word>Programatically</word>
             <word>regex</word>
+            <word>repopulating</word>
             <word>tablenum</word>
         </spellchecker-wordlist>
     </configuration>

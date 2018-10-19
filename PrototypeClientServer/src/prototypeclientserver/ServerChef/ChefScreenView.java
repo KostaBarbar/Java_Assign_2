@@ -9,8 +9,8 @@ import java.awt.event.ActionListener;
 import prototypeclientserver.components.List;
 
 /**
- *
- * @author stephenfleming
+ * Chef screen view class
+ * @author stephenfleming & kosta
  */
 public class ChefScreenView extends javax.swing.JFrame {
     /**

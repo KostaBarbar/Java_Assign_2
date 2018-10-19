@@ -27,8 +27,8 @@ import prototypeclientserver.Order;
 import prototypeclientserver.components.NutritionalInfoTable;
 
 /**
- *
- * @author stephenfleming
+ * Client screen controller class
+ * @author stephenfleming & kosta
  */
 public class ClientScreenController {
     private static final String TABLE_NUMBER_REGEX = "([1-8]{1})+";
@@ -53,7 +53,9 @@ public class ClientScreenController {
         
         setViewEventListeners();
     }
-    
+    /**
+     * Setter for all the event listeners on the form
+     */
     private void setViewEventListeners() {
         //Button Event Listeners
         //Enter Data Listener
@@ -75,7 +77,6 @@ public class ClientScreenController {
                 try {
                     //Create new order from current inputs
                     createNewOrder();
-                    
                     dataModel.getSQL().getOrders();
                 } catch (SQLException ex) {
                     Logger.getLogger(ClientScreenController.class.getName()).log(Level.SEVERE, null, ex);
@@ -84,11 +85,8 @@ public class ClientScreenController {
                 resetGUIOptions();
                 view.setOutputPanel(0);
                 view.resetOutputPanel();
-                
             }
         });
-        
-
         //Display Choice Listener
         view.addDisplayChoiceListener((ActionEvent e) -> {
             //If menu items are enabled
@@ -103,18 +101,13 @@ public class ClientScreenController {
                 view.displayPopup("Please choose the menu items to view Nutrition Information");
             }
         });
-        
-        
         //Display Order Listener
-        //view.addDisplayOrderListener(new DOFListener());
         view.addDisplayOrderListener((ActionEvent e) -> {
             if (dataModel.getOrders().isEmpty())
                 return;
             view.setOutputPanel(1);
             view.updateOrderTable(dataModel.getOrders());
-            
         });
-        
         //Reset Listener
         view.addResetListener((ActionEvent e) -> {
             //Code to create a password insertion popup borrowed
@@ -139,16 +132,23 @@ public class ClientScreenController {
                 }
                 else
                 {
+                    //Reset gui options
                     resetGUIOptions();
+                    //Reset output panel to empty
                     view.setOutputPanel(0);
+                    //Clear anything leftover in the panel
                     view.resetOutputPanel();
+                    //Reset the models orders
                     dataModel.resetOrders();
+                    //Display popup to indicate successful reset
                     view.displayPopup("Form reset!");
                 }   
             }
         });
     }
-    
+    /**
+     * Updates the display choice table with the current items selected
+     */
     public void updateTable()
     {
         //Grab food and beverage MenuItems

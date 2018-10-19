@@ -15,8 +15,8 @@ import prototypeclientserver.components.NutritionalInfoTable;
 import prototypeclientserver.onModelUpdate;
 
 /**
- *
- * @author stephenfleming
+ * Receptionist screen controller class
+ * @author stephenfleming & kosta
  */
 public class ReceptionistScreenController {
     private ReceptionistScreenView view;
@@ -29,16 +29,17 @@ public class ReceptionistScreenController {
         model = new ReceptionistScreenModel();
         
         dataModel = new DataModel();
+        //Auto update the orders list every five seconds
         dataModel.setUpdateInvertal(view, 5000, new onModelUpdate() {
             public void onUpdate() {
                     updateViewListWithOrders();
             }
         });
-        
+        //Update the list of orders
         updateViewListWithOrders();
-        
+        //Make the window visible
         view.setVisible(true);
-        
+        //Add all the event listeners
         //Bill Listener
         view.addBillListener((ActionEvent e) -> {
             Order selected = view.getServedList().getSelectedOrder();
@@ -83,7 +84,10 @@ public class ReceptionistScreenController {
                 view.setBillButtonEnabled(true);
         });
     }
-    
+    /**
+     * Function to update the views list of orders
+     * Clears the current list on screen and updates it with the current orders from the model
+     */
     private void updateViewListWithOrders() {
         int lastSelected = view.getServedList().getSelectedIndex();
         

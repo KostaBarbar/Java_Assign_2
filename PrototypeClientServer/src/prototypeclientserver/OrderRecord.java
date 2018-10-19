@@ -6,8 +6,8 @@
 package prototypeclientserver;
 
 /**
- * this class is used as a interface between the DB Table and an Order Object
- * @author stephenfleming
+ * Class used as an interface between the DB Table and an Order Object
+ * @author stephenfleming & kosta
  */
 public class OrderRecord {
         public int id;
