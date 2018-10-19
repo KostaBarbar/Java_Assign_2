@@ -74,7 +74,7 @@ Client Server Implementation
 
 ### Borrowed Code
 
-######Note: All location entries include lines which are comments, such as purpose, source, and end of borrowed code
+###### Note: All location entries include lines which are comments, such as purpose, source, and end of borrowed code
 
 CSVReader 
 
