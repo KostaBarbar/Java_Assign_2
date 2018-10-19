@@ -44,10 +44,6 @@ public class ChefScreenController {
             serveSelectedOrder();
         });
         
-        view.addRefreshListener((ActionEvent e) -> { 
-            updateViewListWithOrders();
-        });
-        
         updateViewListWithOrders();
     }
     

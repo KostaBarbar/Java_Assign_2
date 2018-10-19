@@ -41,7 +41,8 @@ public class SQLConnector {
             return false;
             //End borrowed code
         } catch (SQLException ex) {
-            Logger.getLogger(SQLConnector.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
+            //Logger.getLogger(SQLConnector.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         return false;
@@ -70,6 +71,26 @@ public class SQLConnector {
         populateTables(food, bev);
     }
     
+    public int getLastOrderId() {
+       ArrayList<OrderRecord> result = new ArrayList<>();
+        String sqlQuery = "SELECT * FROM `orders`";
+        
+        try {
+            PreparedStatement p = myConn.prepareStatement(sqlQuery);
+            
+            ResultSet rs = p.executeQuery(sqlQuery);
+            rs.last();
+            
+            return rs.getInt("id");
+            
+        } catch (Exception e) {
+            System.out.println("Could not get orders " + e.toString());
+            System.out.println(myStmt);
+        }
+        
+        return 0;
+    }
+    
     private void createDatabase() throws SQLException
     {
         myStmt.executeUpdate("create database " + dbname);
@@ -90,7 +111,7 @@ public class SQLConnector {
     {
         String sqlQuery = 
                 "CREATE TABLE orders " +
-                "(id INT NOT NULL, " +
+                "(id auto_increment INT NOT NULL PRIMARY KEY, " +
                 "custname VARCHAR(25) NOT NULL, " +
                 "tablenumber INT NOT NULL, " +
                 "foodname VARCHAR(100) NOT NULL, " + 
@@ -182,15 +203,14 @@ public class SQLConnector {
     public void addOrder(Order o) throws SQLException
     {
         String sqlQuery = 
-                "INSERT INTO orders VALUES (" +
-                o.getID() + ", " +
+                "INSERT INTO orders (custname, tablenumber, foodname, beveragename, served, billed) VALUES (" +
                 "'" + o.getCustomerName() + "', " + 
                 o.getTable() + ", " + 
                 "'" + o.getFood() + "', " +
                 "'" + o.getBeverage() + "', " + 
                 o.isServed() + ", " +
-                o.isBilled() + ", DEFAULT)";
-        System.out.println(sqlQuery);
+                o.isBilled() + ")";
+        
         myStmt.executeUpdate(sqlQuery);
     }
     
@@ -251,6 +271,7 @@ public class SQLConnector {
         
         return result;
     }
+    
     
     public void updateOrderBoolean(int orderId, String column, boolean newValue) {
         int bToInt = 0;
