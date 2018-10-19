@@ -51,13 +51,17 @@ Steve Fleming
 - Display Choice event listener for client server
 - Prepare event listener and functionality for both prototypes
 - Bill event listener and functionality for both prototypes
+- List component
+- NutritionalInfoTable component
 - Order class
 - OrderRecord class
+- OrderStatus class
 - DataController class
 - DataModel class, extends standard model to include threading.
 - onModelUpdate class
 - Customer, Receptionist and Chef models and controllers
 - Creating orders in client server prototype
+- TCP Client\Server Model in pre-integration (was not used in final)
 
 ---
 
@@ -68,10 +72,12 @@ Kosta Barbarigos
 - Enter data event listener
 - Validate customer details inputs
 - GUI view forms functionality (card layout, tables)
+- bug fixes
 
 Steve Fleming
 
-- 
+- Event listeners
+- bug fixes (SQL, some logic)
 
 ---
 
@@ -165,6 +171,10 @@ MainWindow
 	- Code to clear JTable values
 	- Source : https://stackoverflow.com/questions/6232355/deleting-all-the-rows-in-a-jtable
 	- Location : Lines 154-161, Lines 178-185
+
+	- Code to display popup
+	- Source : https://stackoverflow.com/questions/9119481/how-to-present-a-simple-alert-message-in-java
+	- Location: Line 231 - 233
 
 SQLConnector
 
