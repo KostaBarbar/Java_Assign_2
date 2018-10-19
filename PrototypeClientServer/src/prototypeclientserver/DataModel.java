@@ -7,6 +7,7 @@ package prototypeclientserver;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.regex.Pattern;
 
 /**
  * Contains most\all the functionality that the customer model did.
@@ -50,7 +51,7 @@ public class DataModel {
         }    
     }
     
-    private final String PATH = System.getProperty("user.dir") + "/src/prototypeclientserver/items.csv";
+    private final String PATH = fixedPath();
     
     private SQLConnector sql = new SQLConnector();
         
@@ -304,6 +305,25 @@ public class DataModel {
     public void resetOrders()
     {
         orders = new ArrayList<>();
+    }
+    
+    public String fixedPath()
+    {
+        //The main folder name
+        //By default the main folder name is the 
+        String FOLDER_NAME = "Java_Assign_2";
+        String result = "";
+        String[] components = System.getProperty("user.dir").split(Pattern.quote("\\"));
+        int index;
+        for (index = 0; index < components.length; index++)
+        {
+            if (components[index].equals(FOLDER_NAME))
+                break;
+            else
+                result += components[index] + "\\";
+        }
+        result += components[index] + "\\PrototypeStandalone\\RestaurantOrderProcessor\\src/restaurantorderprocessor/items.csv";
+        return result;
     }
     
 }
