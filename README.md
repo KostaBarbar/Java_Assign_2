@@ -22,7 +22,7 @@ Steve Fleming 		- 100963909 	- COS80007
 Whilst many components were developed by both individuals, some functionality was predominantly created by one individual. As such, the contributions has been divided into who created what, as well as who ammended/contributed to what.
 As a brief overview, Steve predominantly worked on creating the forms templates, validations, the prepare and bill functionalities and the word report. Kosta predominantly worked on creating the CSVReader, programatically loading values into the comboboxes, the database and the Javadoc documentation.
 
-##### Created
+#### Created
 
 Kosta Barbarigos
 
@@ -53,7 +53,7 @@ Steve Fleming
 - Customer, Receptionist and Chef models and controllers
 - Creating orders in client server prototype
 
-##### Contributed
+#### Contributed
 
 Kosta Barbarigos
 
