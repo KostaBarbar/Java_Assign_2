@@ -317,12 +317,8 @@ public class DataModel {
         String result = "";
         String[] components = System.getProperty("user.dir").split(Pattern.quote(File.separator));
         
-        System.out.println(System.getProperty("user.dir") + " " + File.separator);
-        
         int index;
-        for (index = 0; index < components.length; index++)
-        {
-            System.out.println(components[index]);
+        for (index = 0; index < components.length; index++) {
             if (components[index].equals(FOLDER_NAME))
                 break;
             else
