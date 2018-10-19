@@ -10,6 +10,8 @@ import restaurantorderprocessor.UI.Controller;
 import restaurantorderprocessor.UI.MainWindow;
 import restaurantorderprocessor.UI.Model;
 
+import java.io.File;
+
 /**
  *
  * @author stephenfleming & kosta
@@ -41,16 +43,16 @@ public class RestaurantOrderProcessor {
         //By default the main folder name is the 
         String FOLDER_NAME = "Java_Assign_2";
         String result = "";
-        String[] components = System.getProperty("user.dir").split(Pattern.quote("\\"));
+        String[] components = System.getProperty("user.dir").split(Pattern.quote(File.separator));
         int index;
         for (index = 0; index < components.length; index++)
         {
             if (components[index].equals(FOLDER_NAME))
                 break;
             else
-                result += components[index] + "\\";
+                result += components[index] + File.separator;
         }
-        result += components[index] + "\\PrototypeStandalone\\RestaurantOrderProcessor\\src/restaurantorderprocessor/items.csv";
+        result += components[index] + File.separator + "PrototypeStandalone" + File.separator + "RestaurantOrderProcessor" + File.separator + "src/restaurantorderprocessor/items.csv";
         return result;
     }
 }
