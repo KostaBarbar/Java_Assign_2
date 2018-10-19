@@ -58,11 +58,31 @@ public class OrderStatus extends javax.swing.JPanel {
         }
 
     }
+    
     /**
      * Sets billed boolean value of currently selected index of served JTable to true
      */
-    public void billSelectedOrder() {
-        servedListModel.get(listServed.getSelectedIndex()).setBilled(true);
+    public boolean billSelectedOrder() {
+        //Code to open confirmation panel sourced from Stack Overflow thread - top answer
+        //Source: https://stackoverflow.com/questions/8689122/joptionpane-yes-no-options-confirm-dialog-box-issue
+        int dialogConfirm = JOptionPane.YES_OPTION;
+        //Confirm users want to add item to served list
+        int dialogResult = JOptionPane.showConfirmDialog(null, "Do you want to bill the selected order?", "Confirmation Dialog", dialogConfirm);
+        if (dialogResult == dialogConfirm)
+        //End borrowed code
+        {
+            servedListModel.get(listServed.getSelectedIndex()).setBilled(true);
+            return true;
+        }
+        
+        return false;
+    }
+    
+    /**
+     * Delete the currently selected order in the bill list
+     */
+    public void removeSelectedBillOrder() {
+        servedListModel.remove(listServed.getSelectedIndex());
     }
     /**
      * Adds an order to the waiting JTable

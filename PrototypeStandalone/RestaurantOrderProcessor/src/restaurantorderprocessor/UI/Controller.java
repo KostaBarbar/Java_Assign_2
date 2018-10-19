@@ -95,13 +95,19 @@ public class Controller {
                 return;
             }
             //If not billed, bill the selected order
-            theView.getOrderStatus().billSelectedOrder();
+            boolean wasRem = theView.getOrderStatus().billSelectedOrder();
+            
+            if (!wasRem)
+                return;
+            
             //Disable bill button again
             theView.setBillButtonEnabled(false);
             //Show bill
             updateTableWithSelectedOrder(theView.getOrderStatus().getSelectedServedOrder());
             //Change output panel to show the bill
             theView.changeOutputPanel(1);
+            
+            theView.getOrderStatus().removeSelectedBillOrder();
         });
         //enable prepare button when item selected
         theView.getOrderStatus().addListSelectionEventListenerToWaiting((ListSelectionEvent e) -> {
