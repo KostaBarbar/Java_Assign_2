@@ -14,9 +14,12 @@ import java.io.File;
 /**
  * Contains most\all the functionality that the customer model did.
  * One model for all views as they need the same behaviour.
- * @author stephenfleming
+ * @author stephenfleming & kosta
  */
 public class DataModel {
+    /**
+     * Extended class to implement Threading into the client server model
+     */
     private class DataModelUpdater extends Thread {
         private Object synchroObject;
         private int invertal;
@@ -32,11 +35,17 @@ public class DataModel {
             
             this.start();
         }
-        
+        /**
+         * Sets the interval for the thread to run it's tasks
+         * @param time time in milliseconds between running the thread
+         */
         public synchronized void setInvertal(int time) {
             invertal = time;
         }
-        
+        /**
+         * Override for the run method
+         * Sleeps for the allocated amount of time before executing update function
+         */
         @Override
         public void run() {
             try {
@@ -67,12 +76,18 @@ public class DataModel {
     
     private DataModelUpdater updater;
     
-    
+    /**
+     * Constructor for the DataModel
+     * Attempts to connect to the database or create it if it doesn't exit
+     */
     public DataModel() {
+        //Try connect to SQL
         if (sql.testConnection()) {
+            //Check if the database exists
             if (!sql.testDatabaseExists())
             {
                 try {
+                    //Create and populate the database with tables and values from the CSV
                     sql.createAndPopulateDatabase(getFoodFromCSV(), getBeverageFromCSV());
                 } catch (SQLException e) {
                     System.out.println(e.toString());
@@ -81,14 +96,16 @@ public class DataModel {
             else
             {
                 try {
+                    //If the database exists, connect to it
                     sql.connectToDatabase();
                 } catch (SQLException e) {
                     System.out.println("DB Already Exists.");
                 }
             }
         }
-        
+        //Update the models food and beverage lists
         updateMenuItemList();
+        //Update the orders list from the sql database
         updateOrderList();
     }
     
@@ -98,22 +115,30 @@ public class DataModel {
 
         updater = new DataModelUpdater(sync, milliseconds, evt);
     }
-    
+    /**
+     * Getter for the SQLConnector
+     * @return the SQLConnector
+     */
     public SQLConnector getSQL() {
         return sql;
     }
-   
-    
+    /**
+     * Getter for the list of orders
+     * Updates the list before returning
+     * @return ArrayList<Order> of orders
+     */
     public ArrayList<Order> getOrders() {
         updateOrderList();
             
         return orders;
     }
-    
+    /**
+     * Getter for the menuItems
+     * @return ArrayList<MenuItem> of menuitems
+     */
     public ArrayList<MenuItem> getMenuItems() {
         return menuItems;
     }
-    
     /**
      * Getter for food in model
      * @return ArrayList of all food items
@@ -121,27 +146,40 @@ public class DataModel {
     public ArrayList<MenuItem> getFood() {
         return food;
     }
-    
+    /**
+     * Getter for the food items from the CSV file
+     * @return ArrayList<MenuItem> of food items
+     */
     public ArrayList<MenuItem> getFoodFromCSV()
     {
         return csvReader.GetFood(PATH);
     }
-    
+    /**
+     * Getter for the beverage items from the model
+     * @return ArrayList<MenuItem> of beverages
+     */
     public ArrayList<MenuItem> getBeverage() {
         return beverage;
     }
-    
+    /**
+     * Getter for the beverages from the CSV file
+     * @return ArrayList<MenuItem> of beverage items
+     */
     public ArrayList<MenuItem> getBeverageFromCSV()
     {
         return csvReader.GetBeverage(PATH);
     }
-    
+    /**
+     * Function to update the list of orders
+     * Initially clears the list of orders before repopulating the list
+     */
     public void updateOrderList ( ){
         orders.clear();
         
         try {
+            //Get orders from the database
             ArrayList<OrderRecord> orderRecords = sql.getOrders();
-            
+            //Iterate over each order in orders, process the data and add an order to the list
             orderRecords.forEach(r -> {
                 ArrayList<MenuItem> orderItems = new ArrayList<>();
                 MenuItem food = getMenuItem(r.food);
@@ -164,11 +202,14 @@ public class DataModel {
             System.out.println("GET ORDER LIST: " + e.toString());
         }    
     }
-    
+    /**
+     * Function to update the items in the comboboxes
+     */
     public void updateMenuItemList() {
         try {
+            //Get all the menuitems from the database
             ArrayList<MenuItem> itms = sql.getMenuItems();
-            
+            //Check whether they food or beverage and add to the appropriate list
             itms.forEach(i -> {
                 if (i.getMenuDesc().trim().equals("food"))
                     food.add(i);
@@ -181,7 +222,6 @@ public class DataModel {
             System.out.println("GET MENU ITEMS: " + e.toString());
         }
     }
-
     /**
      * Searches Food and Beverage ArrayLists for specified item
      * @param itemname item name string to search for
@@ -192,12 +232,10 @@ public class DataModel {
             if (b.getItemName().trim().equals(itemname)) {
                 return b;
             }
-        }
-        
+        } 
         //If no MenuItem is found return null
         return null;
-    } 
-    
+    }
     /**
      * Creates a new order and returns the order created
      * @param cn customer name string
@@ -212,7 +250,6 @@ public class DataModel {
         int orderId = orders.size();
         if (orders.size() > 0)
             orderId = orders.get(orders.size()-1).orderId + 1;
-        
         //Loop through each item
         for (String s : selectedItems) {
             //Grab MenuItem from string name
@@ -223,16 +260,17 @@ public class DataModel {
                 //Add to ArrayList
                 items.add(tmp);
         }
-        
         //Create new order from obtained inputs
         Order newOrder = new Order(cn, orderId, table, items);
-        
         //Add to orders array
         orders.add(newOrder);
         //Return newly created order
         return newOrder;
     }
-    
+    /**
+     * Function to filter orders for the Chef to view
+     * Only shows orders that haven't been served yet
+     */
     public void filterOrdersForChef()
     {
         int length = orders.size() - 1;
@@ -242,27 +280,36 @@ public class DataModel {
                     orders.remove(i);
         }
     }
-    
+    /**
+     * Attempt to connect to the SQL database
+     * @throws SQLException if cannot connect
+     */
     public void prepareSQL() throws SQLException
     {
-        
         sql.connectToDatabase();
-        ArrayList<MenuItem> temp = sql.getMenuItems();
     }
-    
+    /**
+     * Updates an order in the model and the database
+     * 'Serves' the order
+     * @param o the order to serve
+     */
     public void serveOrder(Order o) {
+        //Update model
         o.setServed(true);
-        
+        //Update database
         sql.updateOrderBoolean(o.getID(), "served", true);
     }
-    
+    /**
+     * Updates an order in the model and the database
+     * 'Bills' the order
+     * @param o the order to bill
+     */
     public void billOrder(Order o) {
+        //Update model
         o.setBilled(true);
-        
+        //Update database
         sql.updateOrderBoolean(o.getID(), "billed", true);
     }
- 
- 
     /**
      * Combines the values of two MenuItems
      * Used for the output table panel, in the total row
@@ -285,8 +332,7 @@ public class DataModel {
                 0
         );
     }
-    
-/**
+    /**
      * Converts ArrayLists into String arrays
      * @param arr ArrayList of MenuItems to convert 
      * @return string array of item names
@@ -303,12 +349,17 @@ public class DataModel {
         //Return result
         return values;
     }
-    
+    /**
+     * Resets the list of orders in the model
+     */
     public void resetOrders()
     {
         orders = new ArrayList<>();
     }
-    
+    /**
+     * Function to return the corrected path to the items CSV file.
+     * @return file path string
+     */
     public String fixedPath()
     {
         //The main folder name
@@ -316,7 +367,6 @@ public class DataModel {
         String FOLDER_NAME = "Java_Assign_2";
         String result = "";
         String[] components = System.getProperty("user.dir").split(Pattern.quote(File.separator));
-        
         int index;
         for (index = 0; index < components.length; index++) {
             if (components[index].equals(FOLDER_NAME))
@@ -324,7 +374,6 @@ public class DataModel {
             else
                 result += components[index] + File.separator;
         }
-        
         result += components[index] + File.separator + "PrototypeStandalone"+File.separator+"RestaurantOrderProcessor"+File.separator+"src/restaurantorderprocessor/items.csv";
         return result;
     }

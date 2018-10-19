@@ -3,11 +3,25 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/C:/Users/kosta/Desktop/JA2/Java_Assign_2/PrototypeClientServer/src/prototypeclientserver/ClientCustomer/ClientScreenController.java</file>
+            <file>file:/C:/Users/kosta/Desktop/JA2/Java_Assign_2/PrototypeClientServer/src/prototypeclientserver/ClientCustomer/ClientScreenView.java</file>
             <file>file:/C:/Users/kosta/Desktop/JA2/Java_Assign_2/PrototypeClientServer/src/prototypeclientserver/ServerChef/ChefScreenModel.java</file>
-            <file>file:/C:/Users/kosta/Desktop/JA2/Java_Assign_2/PrototypeClientServer/src/prototypeclientserver/SQLConnector.java</file>
-            <file>file:/C:/Users/kosta/Desktop/JA2/Java_Assign_2/PrototypeClientServer/src/prototypeclientserver/ServerChef/ChefScreenController.java</file>
             <file>file:/C:/Users/kosta/Desktop/JA2/Java_Assign_2/PrototypeClientServer/src/prototypeclientserver/DataModel.java</file>
+            <file>file:/C:/Users/kosta/Desktop/JA2/Java_Assign_2/PrototypeClientServer/src/prototypeclientserver/ClientCustomer/CustomerDetails.java</file>
+            <file>file:/C:/Users/kosta/Desktop/JA2/Java_Assign_2/PrototypeClientServer/src/prototypeclientserver/SQLConnector.java</file>
+            <file>file:/C:/Users/kosta/Desktop/JA2/Java_Assign_2/PrototypeClientServer/src/prototypeclientserver/OrderRecord.java</file>
+            <file>file:/C:/Users/kosta/Desktop/JA2/Java_Assign_2/PrototypeClientServer/src/prototypeclientserver/MenuItem.java</file>
             <file>file:/C:/Users/kosta/Desktop/JA2/Java_Assign_2/PrototypeClientServer/src/prototypeclientserver/ServerChef/ChefScreenView.java</file>
+            <file>file:/C:/Users/kosta/Desktop/JA2/Java_Assign_2/PrototypeClientServer/src/prototypeclientserver/ClientReceptionist/ReceptionistScreenView.java</file>
+            <file>file:/C:/Users/kosta/Desktop/JA2/Java_Assign_2/PrototypeClientServer/src/prototypeclientserver/onModelUpdate.java</file>
+            <file>file:/C:/Users/kosta/Desktop/JA2/Java_Assign_2/PrototypeClientServer/src/prototypeclientserver/CSVReader.java</file>
+            <file>file:/C:/Users/kosta/Desktop/JA2/Java_Assign_2/PrototypeClientServer/src/prototypeclientserver/ServerChef/ChefScreenController.java</file>
+            <file>file:/C:/Users/kosta/Desktop/JA2/Java_Assign_2/PrototypeClientServer/src/prototypeclientserver/ClientCustomer/ClientScreenModel.java</file>
+            <file>file:/C:/Users/kosta/Desktop/JA2/Java_Assign_2/PrototypeClientServer/src/prototypeclientserver/ClientReceptionist/ReceptionistScreenController.java</file>
+            <file>file:/C:/Users/kosta/Desktop/JA2/Java_Assign_2/PrototypeClientServer/src/prototypeclientserver/items.csv</file>
+            <file>file:/C:/Users/kosta/Desktop/JA2/Java_Assign_2/PrototypeClientServer/src/prototypeclientserver/ClientReceptionist/ReceptionistScreenModel.java</file>
+            <file>file:/C:/Users/kosta/Desktop/JA2/Java_Assign_2/PrototypeClientServer/src/prototypeclientserver/PrototypeClientServer.java</file>
+            <file>file:/C:/Users/kosta/Desktop/JA2/Java_Assign_2/PrototypeClientServer/src/prototypeclientserver/ClientCustomer/MenuItems.java</file>
         </group>
     </open-files>
 </project-private>

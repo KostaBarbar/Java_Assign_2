@@ -16,6 +16,7 @@ import prototypeclientserver.onModelUpdate;
  * This is the controller for the Chef Screen. 
  * This screen receives orders from the customer and, once served, passes them to the receptionist for billing.
  * The Chef screen also acts as the server.
+ * @author stephenfleming & kosta
  */
 public class ChefScreenController {
     ChefScreenView view;
@@ -70,7 +71,10 @@ public class ChefScreenController {
         
         updateViewListWithOrders();
     }
-    
+    /**
+     * Function to update the views list of orders
+     * Clears the current list on screen and updates it with the current orders from the model
+     */
     private void updateViewListWithOrders() {
         int lastSel = view.getWaitingList().getSelectedIndex();
         

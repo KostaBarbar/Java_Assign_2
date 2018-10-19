@@ -11,26 +11,20 @@ import prototypeclientserver.ClientReceptionist.ReceptionistScreenController;
 import prototypeclientserver.ServerChef.ChefScreenController;
 
 /**
- *
- * @author stephenfleming
+ * Main file to run the program
+ * @author stephenfleming & kosta
  */
 public class PrototypeClientServer {
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        ChefScreenController chef = new ChefScreenController();
-        
-        ReceptionistScreenController receptionist = new ReceptionistScreenController();
-        
+        ChefScreenController chef = new ChefScreenController(); 
+        ReceptionistScreenController receptionist = new ReceptionistScreenController(); 
         try {
             ClientScreenController customer = new ClientScreenController();
         } catch (SQLException e) {
             System.out.println(e.toString());
-        }
-        
-        
+        } 
     }
-    
-    
 }

@@ -18,7 +18,7 @@ import prototypeclientserver.Order;
 import prototypeclientserver.components.NutritionalInfoTable;
 
 /**
- * 
+ * @author stephenfleming & kosta
  */
 public class ClientScreenView extends javax.swing.JFrame {
 
@@ -29,15 +29,19 @@ public class ClientScreenView extends javax.swing.JFrame {
         initComponents();
         
         this.setName("Customer");
-        
+        //Fix the sizing of the display orders table
         TableColumnModel t = outputTable.getColumnModel();
         t.getColumn(0).setPreferredWidth(100);
         t.getColumn(1).setPreferredWidth(500);
         t.getColumn(2).setPreferredWidth(100);
-        
-        
     }
-    
+    /**
+     * Updates the Output Table panels table
+     * Sets the food, beverage and combined rows
+     * @param food MenuItem to add to food row
+     * @param beverage MenuItem to add to beverage row
+     * @param combined MenuItem to add to combined row
+     */
     public void updateOutputTable(MenuItem food, MenuItem beverage, MenuItem combined)
     {
         //Update First Row - Food
@@ -65,7 +69,14 @@ public class ClientScreenView extends javax.swing.JFrame {
         outputTableChoices.setValueAt(combined.getFibre(), 3, 5);
         outputTableChoices.setValueAt(combined.getPrice(), 3, 6);
     }
-    
+    /**
+     * Change the output card layout to the appropriate panel
+     * Panels Index:
+     *      - 0 : Empty Output Panel
+     *      - 1 : Output Order Panel
+     *      - 2 : Output Choices Panel
+     * @param index integer to change panel index to
+     */
     public void setOutputPanel(int index)
     {
         JPanel[] arr = {outputPanelEmpty, outputPanelOrders, outputPanelChoices};
@@ -77,7 +88,12 @@ public class ClientScreenView extends javax.swing.JFrame {
                 arr[i].setVisible(false);
         }
     }
-    
+    /**
+     * Updates the Output Order Table with new rows
+     * Clears the previous configuration of rows
+     * Then adds the new array of rows
+     * @param ords ArrayList to add
+     */
     public void updateOrderTable(ArrayList<Order> ords)
     {
         //Code sourced from stackoverflow to clear table values
@@ -106,7 +122,6 @@ public class ClientScreenView extends javax.swing.JFrame {
     {
         buttonEnterData.addActionListener(l);
     }
-    
     /**
      * Adds an ActionListener for Display Choice button
      * @param l ActionListener to add
@@ -116,50 +131,59 @@ public class ClientScreenView extends javax.swing.JFrame {
         buttonDisplayChoices.addActionListener(l);
     }
     /**
-     * Adds a FocusListener for Display Order button
-     * @param f FocusListener to add
-     */    
-    public void addDisplayOrderListener(FocusListener f)
-    {
-        buttonDisplayOrder.addFocusListener(f);
-    }
-    
+     * Adds an ActionListener for the Display Order button
+     * @param l ActionListener to add
+     */
     public void addDisplayOrderListener(ActionListener l)
     {
         buttonDisplayOrder.addActionListener(l);
     }
-    
+    /**
+     * Adds an ActionListener for the Reset button
+     * @param l ActionListener to add
+     */
     public void addResetListener(ActionListener l)
     {
         buttonReset.addActionListener(l);
     }
-    
+    /**
+     * Adds a table to the output panel
+     * @param content the content to add to the panel
+     */
     public void addContentToOutputPanel(JPanel content) {
+        //Remove all the current content
         outputPanelEmpty.removeAll();
-        
+        //Create a new panel to insert into the current panel with the appropriate values
         Panel p2 = new Panel();
         p2.setLayout(new BorderLayout());
         p2.add(content);
-        
+        //Add the content to the panel
         outputPanelEmpty.add(p2);
-        
+        //Update the UI
         outputPanelEmpty.updateUI();
         pack();
     }
-    
+    /**
+     * Resets the output panel by deleting anything within it
+     */
     public void resetOutputPanel()
     {
         outputPanelEmpty.removeAll();
     }
-    
+    /**
+     * Getter for the customerdetails
+     * @return CustomerDetails
+     */
     public CustomerDetails getCustomerDetails() {
         return customerDetails;
     }
-    
+    /**
+     * Getter for the menu items
+     * @return menuitems
+     */
     public MenuItems getMenuItems() {
         return menuItems;
     }
-    
      /**
      * Displays a pop-up message to the JFrame
      * @param msg String message to display
@@ -169,7 +193,6 @@ public class ClientScreenView extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(null, msg);
         //end src
     }
-    
     /**
      * Updates the Output Order Table with new row
      * Clears the previous configuration of rows
@@ -179,26 +202,9 @@ public class ClientScreenView extends javax.swing.JFrame {
     public void updateOutputOrderTable(Order order)
     {
         NutritionalInfoTable table = new NutritionalInfoTable(order.getFood(), order.getBeverage(), order.getFood());
-        
         outputPanelEmpty.add(table);
-        
         this.pack();
-        /*
-        //Code sourced from stackoverflow to clear table values
-        //Source : https://stackoverflow.com/questions/6232355/deleting-all-the-rows-in-a-jtable
-        //Remove all rows from the table
-        DefaultTableModel dm = (DefaultTableModel)outputOrderTable.getModel();
-        int rc = dm.getRowCount();
-        for (int i = rc - 1; i >= 0; i--)
-            dm.removeRow(i);
-        //End borrowed code
-        //Add specified row
-        String n = ord.getCustomerName();
-        String items = ord.getItems();
-        dm.addRow(new String[]{n, items});
-        */
     }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

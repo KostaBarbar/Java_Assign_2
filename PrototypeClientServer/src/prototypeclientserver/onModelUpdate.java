@@ -7,7 +7,7 @@ package prototypeclientserver;
 
 /**
  *
- * @author stephenfleming
+ * @author stephenfleming & kosta
  */
 public interface onModelUpdate {
     void onUpdate();

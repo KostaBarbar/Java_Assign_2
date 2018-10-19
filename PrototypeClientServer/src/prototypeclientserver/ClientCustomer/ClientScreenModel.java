@@ -12,8 +12,8 @@ import prototypeclientserver.MenuItem;
 import prototypeclientserver.DataController;
 
 /**
- *
- * @author stephenfleming
+ * Client screen model class
+ * @author stephenfleming & kosta
  */
 public class ClientScreenModel {
     private DataController data;
@@ -21,11 +21,13 @@ public class ClientScreenModel {
     public ClientScreenModel() throws SQLException {
         data = new DataController();
     }
-    
+    /**
+     * Getter for the DataController assigned to the model
+     * @return the DataController
+     */
     public DataController getDataController() {
         return data;
     }
-    
     /**
      * Combines the values of two MenuItems
      * Used for the output table panel, in the total row
@@ -48,8 +50,7 @@ public class ClientScreenModel {
                 0
         );
     }
-    
-/**
+    /**
      * Converts ArrayLists into String arrays
      * @param arr ArrayList of MenuItems to convert 
      * @return string array of item names
@@ -66,7 +67,6 @@ public class ClientScreenModel {
         //Return result
         return values;
     }
-    
     /**
      * Validates inputs against regex expression
      * @param input string input to check 
