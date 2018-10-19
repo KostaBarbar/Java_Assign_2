@@ -9,6 +9,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.regex.Pattern;
 
+import java.io.File;
+
 /**
  * Contains most\all the functionality that the customer model did.
  * One model for all views as they need the same behaviour.
@@ -313,16 +315,21 @@ public class DataModel {
         //By default the main folder name is the 
         String FOLDER_NAME = "Java_Assign_2";
         String result = "";
-        String[] components = System.getProperty("user.dir").split(Pattern.quote("\\"));
+        String[] components = System.getProperty("user.dir").split(Pattern.quote(File.separator));
+        
+        System.out.println(System.getProperty("user.dir") + " " + File.separator);
+        
         int index;
         for (index = 0; index < components.length; index++)
         {
+            System.out.println(components[index]);
             if (components[index].equals(FOLDER_NAME))
                 break;
             else
-                result += components[index] + "\\";
+                result += components[index] + File.separator;
         }
-        result += components[index] + "\\PrototypeStandalone\\RestaurantOrderProcessor\\src/restaurantorderprocessor/items.csv";
+        
+        result += components[index] + File.separator + "PrototypeStandalone"+File.separator+"RestaurantOrderProcessor"+File.separator+"src/restaurantorderprocessor/items.csv";
         return result;
     }
     
