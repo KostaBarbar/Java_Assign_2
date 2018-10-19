@@ -4,7 +4,70 @@
 
 ---
 
+### Team Information
+
+Kosta Barbarigos 	- 101631676 	- COS80007
+Steve Fleming 		- 100963909 	- COS80007
+
+### How To Run Prototypes
+
+1. Open an instance of a mySQL database on your localhost. XAMPP and WAMP have been tested to work.
+2. Unzip the folder to a suitable location (such as the desktop).
+3. Navigate to the SQLConnector class located in "PrototypeClientServer\src\prototypeclientserver\SQLConnector.java".
+4. Edit the file so that the user, pass, and getconn fields correspond to the credentials of your instance. By default the username is "root" the password is empty "" and the port is "3306".
+5. Navigate to the root directory add run the corresponding batch files to run prototypes.
+
+### Individual Contributions
+
+Whilst many components were developed by both individuals, some functionality was predominantly created by one individual. As such, the contributions has been divided into who created what, as well as who ammended/contributed to what.
+As a brief overview, Steve predominantly worked on creating the forms templates, validations, the prepare and bill functionalities and the word report. Kosta predominantly worked on creating the CSVReader, programatically loading values into the comboboxes, the database and the Javadoc documentation.
+
+##### Created
+
+Kosta Barbarigos
+
+- CSVReader class to read in the CSV file, sanitise their inputs and sort items into food and beverage. (Also sorts by radio box)
+- MenuItem class, layout, getters and setters
+- FocusListener for display orders (DOFListener) in standalone
+- Display Orders event listener and functionality for client server
+- Display Choice event listener and functionality for standalone
+- Clear display event listener for both prototypes
+- Quit event listener for standalone
+- Programatically loading comboboxes
+- Updating tables in standalone
+- SQLConnector class to interact with SQL, test connection, create and populate database, make queries
+
+Steve Fleming
+
+- The standalone GUI view form templates for standalone and client server
+- Regex validation
+- Enter Data event listener
+- Display Choice event listener for client server
+- Prepare event listener and functionality for both prototypes
+- Bill event listener and functionality for both prototypes
+- Order class
+- OrderRecord class
+- DataController class
+- DataModel class, extends standard model to include threading.
+- onModelUpdate class
+- Customer, Receptionist and Chef models and controllers
+- Creating orders in client server prototype
+
+##### Contributed
+
+Kosta Barbarigos
+
+- Enter data event listener
+- Validate customer details inputs
+- GUI view forms functionality (card layout, tables)
+
+Steve Fleming
+
+- 
+
+
 ### Features Completed
+
 Standalone Implementation
 
 - GUI - all aspects of the interface implemented to meet given screenshots from assignment description.
